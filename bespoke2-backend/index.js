@@ -14,7 +14,7 @@ const PORT = 8202;
 app.use(express.json()); // Body-Parser for POST-REQUESTS w/ JSON-Payloads, ein MUSS für POST-Requests
 
 app.use(cors());        // Ermöglicht dem Frontend, HTTP-Anfragen von einer anderen Domain an den Server zu senden (Cross-Origin Resource Sharing)
-// TODO: #security: welche URI ergänzen wir hier bei bespoke konkret?  #miduda
+// TODO: ASK #security: Welche URI ergänzen wir hier bei bespoke konkret?  
 
 
 app.use(errorHandler);
