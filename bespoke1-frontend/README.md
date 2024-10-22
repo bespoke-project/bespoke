@@ -1,4 +1,6 @@
-# React + Vite
+# bespoke
+
+22.10.2024 - added "dev" branch
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
