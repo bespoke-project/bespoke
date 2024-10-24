@@ -8,8 +8,8 @@
 
 [Gab2903](https://github.com/Gab2903) · 
 [Ias-far](https://github.com/Ias-far) ·
-[Lernya](https://github.com/Lernya) 
-[samish24](https://github.com/samish24) 
+[Lernya](https://github.com/Lernya) ·
+[samish24](https://github.com/samish24) ·
 [SiamakMehrnia](https://github.com/SiamakMehrnia) 
 </details>
 
