@@ -51,8 +51,32 @@ export const signOut = asyncHandler(async (req, res, next) => {
   res.send({ status: "logged out" });
 });
 
+// UPDATE USER INFO
+export const updateUser = asyncHandler(async (req, res, next) => {
+  const { firstName, lastName, username, email, favorites } = req.body;
+
+  const updatedUser = await User.update(
+    { firstName, lastName, username, email, favorites },
+    { where: { id: req.uid }, returning: true, plain: true }
+  );
+
+  if (!updatedUser) throw new ErrorResponse("User not found", 404);
+
+  res.send({ status: "User info updated", user: updatedUser[1] });
+});
+
 // Verify User
 export const getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findByPk(req.uid);
   res.json(user);
+});
+
+// DELETE USER
+export const deleteUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findByPk(req.uid);
+
+  if (!user) throw new ErrorResponse("User not found", 404);
+
+  await user.destroy();
+  res.send({ status: "User deleted" });
 });
