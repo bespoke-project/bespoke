@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+// import logo from "/Users/gabriel/WBS/myWDG18/Final-Project/git-bespoke/bespoke1-frontend/src/components/graphics/logo.png";
 
 const Navbar = () => {
   const [theme, setTheme] = useState(
@@ -17,7 +18,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar bg-base-300">
+      <div className="navbar bg-base-300 max-h-8">
         <div className="flex-1">
           <label className="swap swap-rotate">
             <input type="checkbox" onChange={handleChange} checked={theme === "dark"} />
@@ -53,7 +54,16 @@ const Navbar = () => {
             </svg>
           </label>
         </div>
-        <div className="flex-none">
+        {/* Mittig zentriertes Logo */}
+        {/* <div className="flex-none">
+          <img
+            src={logo}
+            alt="Logo"
+            className="h-20
+           w-auto mx-auto"
+          />
+        </div> */}
+        <div className="flex-1 flex justify-end">
           <ul className="menu menu-horizontal px-1">
             <li>
               <Link to="/">Home</Link>

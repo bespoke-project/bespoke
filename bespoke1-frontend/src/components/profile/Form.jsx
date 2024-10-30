@@ -70,7 +70,7 @@ const Form = () => {
       </div>
         <div className="max-w-xl m-auto py-4 ">
             <div className="flex flex-col py-4">
-            <button className="btn btn-success border-gray-300  p-2 rounded-md" onClick={resatFormData}>Upadate</button>
+            <button className="btn btn-success border-gray-300  p-2 rounded-md" onClick={resatFormData}>Update</button>
             </div>
         </div>
 
