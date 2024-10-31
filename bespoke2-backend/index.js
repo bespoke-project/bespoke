@@ -1,5 +1,5 @@
 import express from "express";
-// import cors from "cors";
+import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import authRouter from "./routes/authRouter.js";
 import postsRouter from "./routes/postsRouter.js";
@@ -13,12 +13,12 @@ import "./db/server.js";
 const app = express();
 const PORT = 8202;
 
-// // Middleware
-// // JSON-Body-Parser, Cors, Error-Handler,
+// Middleware
+// JSON-Body-Parser, Cors, Error-Handler,
 
 app.use(express.json()); // Body-Parser for POST-REQUESTS w/ JSON-Payloads, ein MUSS für POST-Requests
 app.use(cookieParser());
-// app.use(cors());        // Ermöglicht dem Frontend, HTTP-Anfragen von einer anderen Domain an den Server zu senden (Cross-Origin Resource Sharing)
+app.use(cors()); // Ermöglicht dem Frontend, HTTP-Anfragen von einer anderen Domain an den Server zu senden (Cross-Origin Resource Sharing)
 // // TODO: ASK #security: Welche URI ergänzen wir hier bei bespoke konkret?
 
 // Routes
