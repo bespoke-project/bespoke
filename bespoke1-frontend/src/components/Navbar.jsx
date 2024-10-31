@@ -21,7 +21,11 @@ const Navbar = () => {
       <div className="navbar bg-base-300 max-h-8">
         <div className="flex-1">
           <label className="swap swap-rotate">
-            <input type="checkbox" onChange={handleChange} checked={theme === "dark"} />
+            <input
+              type="checkbox"
+              onChange={handleChange}
+              checked={theme === "dark"}
+            />
             {/* Sonne für dunkles Theme */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
