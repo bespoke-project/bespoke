@@ -1,6 +1,5 @@
 import express from "express";
-// TODO: ASK Teamabstimmung: CORS wieder einbinden, sofern nichts dagegen spricht.
-// import cors from "cors";
+import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import authRouter from "./routes/authRouter.js";
 import postsRouter from "./routes/postsRouter.js";
@@ -34,7 +33,7 @@ const PORT = 8202;
 app.use(express.json()); // Body-Parser for POST-REQUESTS w/ JSON-Payloads, ein MUSS für POST-Requests
 app.use(errorHandler);
 app.use(cookieParser());
-// app.use(cors());        // Ermöglicht dem Frontend, HTTP-Anfragen von einer anderen Domain an den Server zu senden (Cross-Origin Resource Sharing)
+app.use(cors()); // Ermöglicht dem Frontend, HTTP-Anfragen von einer anderen Domain an den Server zu senden (Cross-Origin Resource Sharing)
 // // TODO: ASK #security: Welche URI ergänzen wir hier bei bespoke konkret?
 
 // Routes
