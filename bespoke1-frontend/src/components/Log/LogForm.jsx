@@ -30,7 +30,7 @@ const LogForm = () => {
       });
     } else {
       try {
-        console.log("API URL:", import.meta.env.VITE_API_URL); //wollte hier nur sicher sein, dass die Umgebungsvariable funktioniert
+        console.log("API URL:", import.meta.env.VITE_API_URL); // Überprüfung der API-URL
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/auth/login`,
           {
