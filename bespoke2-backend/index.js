@@ -10,7 +10,7 @@ import "./db/server.js";
 // // wichtig (bei Express): bei Scripteinbidnung immer Dateiendung .js angeben
 
 // Modularizing the code ...
-//import tokenRouter from "./routes/tokenRouter.js"
+// import tokensRouter from "./routes/tokensRouter.js"
 
 
 // aktuell andere Konstellation "aktiv", via authRouter.js
@@ -43,7 +43,7 @@ app.use("/posts", postsRouter);
 
 // Modularizing the code ...
 // Routes fuer Dateninput
-// app.get('/tokens-t1', tokenRouter);
+// app.use("/tokens-t1", tokensRouter);
 
 
 app.get("/", (req, res) => {
