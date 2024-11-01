@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "/Users/gabriel/WBS/myWDG18/Final-Project/git-bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp";
+// import logo from "bespoke1-frontend\src\components\graphics\Bespoke!Logo.webp";
 
 const Navbar = () => {
   const [theme, setTheme] = useState(
@@ -59,14 +59,14 @@ const Navbar = () => {
           </label>
         </div>
         {/* Mittig zentriertes Logo */}
-        <div className="flex-none">
+        {/* <div className="flex-none">
           <img
             src={logo}
             alt="Logo"
             className="h-20
            w-auto mx-auto"
           />
-        </div>
+        </div> */}
         <div className="flex-1 flex justify-end">
           <ul className="menu menu-horizontal px-1">
             <li>

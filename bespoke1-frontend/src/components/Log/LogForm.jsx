@@ -30,7 +30,7 @@ const LogForm = () => {
       });
     } else {
       try {
-        console.log("API URL:", import.meta.env.VITE_API_URL); // Überprüfung der API-URL
+        console.log("API URL:", import.meta.env.VITE_API_URL); // will hier nur überprüfen, ob die URL korrekt ist
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/auth/login`,
           {
@@ -45,13 +45,12 @@ const LogForm = () => {
         const data = await response.json();
 
         if (response.ok) {
-          // Speichere das JWT im Local Storage
           localStorage.setItem("token", data.token);
           Swal.fire({
             icon: "success",
             title: "Login Successful",
           });
-          // Optional: Weiterleitung auf eine andere Seite
+          // hier: weiterleiten zum Home
         } else {
           Swal.fire({
             icon: "error",
