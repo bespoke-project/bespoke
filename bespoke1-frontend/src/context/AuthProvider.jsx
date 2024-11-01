@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
         }
       );
 
-      if (response.data && response.data._id) {
+      if (response.data && response.data.id) {
         setIsLoggedIn(true);
         setUserData(response.data);
         return response.data;
