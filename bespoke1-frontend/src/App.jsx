@@ -15,8 +15,8 @@ import Details from "./pages/Details";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
-      <Route index element={<Home />} />
-      <Route path="/login" element={<Login />} />
+      <Route index element={<Login />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/Search" element={<Search />} />
       <Route path="/profile" element={<Profile />} />

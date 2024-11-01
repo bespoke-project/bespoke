@@ -18,7 +18,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar bg-base-300 max-h-8">
+      <div className="navbar bg-base-300 max-h-8 ">
         <div className="flex-1">
           <label className="swap swap-rotate">
             <input type="checkbox" onChange={handleChange} checked={theme === "dark"} />
@@ -66,7 +66,7 @@ const Navbar = () => {
         <div className="flex-1 flex justify-end">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li>
               <Link to="/Profile">Profile</Link>
@@ -75,7 +75,7 @@ const Navbar = () => {
               <Link to="/search">Search</Link>
             </li>
             <li>
-              <Link to="/login">Logout</Link>
+              <Link to="/">Logout</Link>
             </li>
           </ul>
         </div>
