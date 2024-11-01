@@ -1,5 +1,5 @@
 export const errorHandler = (err, req, res, next) => {
-  // Den Stracktrace des Fehlers für Debugging loggen
+  // Den Stacktrace des Fehlers für Debugging loggen
   console.log(err.stack);
 
   // Ergebnis: JSON-Antwort mit dem Fehlerstatus und der Fehlermeldung
