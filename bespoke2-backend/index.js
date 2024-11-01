@@ -134,6 +134,25 @@ app.get('/tokens-combo-t1/:id', async (req, res) => {
     }
 });
 
+// Funktioniert :-)
+app.get('/tokens-t2/:id', async (req, res) => {
+    const tokenId = req.params.id;
+    // Zum Testen mit festem Wert bitcoin
+    //const tokenId = 'bitcoin'
+
+    try {
+        // API C, anhand id Marktwert in US-Dollar, 30 Tage Zeitverlauf.
+        const responseC = await axios.get(`https://api.coingecko.com/api/v3/coins/${tokenId}/market_chart?vs_currency=usd&days=30`);
+        const tokenDetails = responseC.data;
+
+        res.json(tokenDetails);
+
+    } catch (error) {
+        next(error);
+    }
+});
+
+
 // Server starten
 app.listen(PORT, () => console.log(`Server is running on port:${PORT}`));
 // });
