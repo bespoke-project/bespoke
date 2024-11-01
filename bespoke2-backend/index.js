@@ -131,8 +131,7 @@ app.get('/tokens-combo-t1/:id', async (req, res) => {
         res.json(combinedData1);
 
     } catch (error) {
-        // TODO Question, Testen: next(error);
-        res.status(500).json({ error: 'Failed to fetch data' });
+        next(error);        
     }
 });
 
