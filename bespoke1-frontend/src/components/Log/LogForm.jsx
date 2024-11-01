@@ -1,12 +1,15 @@
 import { useState } from "react";
-import Swal from "sweetalert2"; // Importiere SweetAlert2
-import SignUpModal from "./SignUpModal"; // Importiere die SignUpModal-Komponente
+import Swal from "sweetalert2";
+import SignUpModal from "./SignUpModal";
+import { useAuth } from "../../context/AuthProvider";
+import axios from "axios";
 
 const LogForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { checkUser } = useAuth();
 
   const handleModalOpen = () => {
     setShowModal(true);
@@ -30,41 +33,33 @@ const LogForm = () => {
       });
     } else {
       try {
-        console.log("API URL:", import.meta.env.VITE_API_URL); // Überprüfung der API-URL
-        const response = await fetch(
+        const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/auth/login`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-          }
+          { email, password },
+          { withCredentials: true }
         );
 
-        const data = await response.json();
-
-        if (response.ok) {
-          // Speichere das JWT im Local Storage
-          localStorage.setItem("token", data.token);
+        if (response.status === 200) {
+          await checkUser();
           Swal.fire({
             icon: "success",
             title: "Login Successful",
           });
-          // Optional: Weiterleitung auf eine andere Seite
-        } else {
+        }
+      } catch (error) {
+        if (error.response && error.response.data) {
           Swal.fire({
             icon: "error",
             title: "Login Failed",
-            text: data.message || "Incorrect email or password.",
+            text: error.response.data.message || "Incorrect email or password.",
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Network Error",
+            text: "Please check your connection and try again.",
           });
         }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Network Error",
-          text: "Please check your connection and try again.",
-        });
       }
     }
   };
@@ -160,7 +155,6 @@ const LogForm = () => {
         </form>
       </div>
 
-      {/* Zeige SignUpModal an, wenn showModal true ist */}
       {showModal && <SignUpModal onClose={handleModalClose} />}
     </>
   );

@@ -1,5 +1,3 @@
-// src/App.jsx
-import React from "react";
 import {
   createRoutesFromElements,
   Route,
@@ -14,6 +12,8 @@ import Search from "./pages/Search";
 import Profile from "./pages/Profile";
 import Details from "./pages/Details";
 import { TokenProvider } from "./context/TokenContext";
+import { AuthProvider } from "./context/AuthProvider";
+import Sami from "./components/Sami";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,9 +32,12 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <TokenProvider>
-      <RouterProvider router={router} />
-    </TokenProvider>
+    <AuthProvider>
+      <Sami />
+      <TokenProvider>
+        <RouterProvider router={router} />
+      </TokenProvider>
+    </AuthProvider>
   );
 }
 
