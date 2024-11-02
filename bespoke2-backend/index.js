@@ -27,15 +27,15 @@ import axios from 'axios';
 const app = express();
 const PORT = 8202;
 
-// // Middleware
-// // JSON-Body-Parser, Cors, Error-Handler,
+// Middleware
+// JSON-Body-Parser, Cors, Error-Handler,
 
 app.use(express.json()); // Body-Parser for POST-REQUESTS w/ JSON-Payloads, ein MUSS für POST-Requests
 app.use(errorHandler);
 app.use(cookieParser());
-app.use(cors()); // Ermöglicht dem Frontend, HTTP-Anfragen von einer anderen Domain an den Server zu senden (Cross-Origin Resource Sharing)
+// app.use(cors()); // Ermöglicht dem Frontend, HTTP-Anfragen von einer anderen Domain an den Server zu senden (Cross-Origin Resource Sharing)
 // // TODO: ASK #security: Welche URI ergänzen wir hier bei bespoke konkret?
-
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 // Routes
 app.use("/auth", authRouter);
 app.use("/posts", postsRouter);
