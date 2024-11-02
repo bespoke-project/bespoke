@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph 1</title>
+    <script type="text/javascript" src="https://unpkg.com/dygraphs@2.2.1/dist/dygraph.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="https://unpkg.com/dygraphs@2.2.1/dist/dygraph.min.css" /> -->
+    <style>
+       .dygraph-legend {
+  position: absolute;
+  font-size: 14px;
+  z-index: 10;
+  width: 400px;  /* labelsDivWidth */ /* mod */  
+  /*
+  dygraphs determines these based on the presence of chart labels.
+  It might make more sense to create a wrapper div around the chart proper.
+  top: 0px;
+  right: 2px;
+  */
+  background: white;
+  line-height: normal;
+  text-align: left;
+  overflow: hidden;
+}
+
+.dygraph-legend[dir="rtl"] {
+  text-align: right;
+}
+
+/* styles for a solid line in the legend */
+.dygraph-legend-line {
+  display: inline-block;
+  position: relative;
+  bottom: .5ex;
+  padding-left: 1em;
+  height: 1px;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  /* border-bottom-color is set based on the series color */
+}
+
+/* styles for a dashed line in the legend, e.g. when strokePattern is set */
+.dygraph-legend-dash {
+  display: inline-block;
+  position: relative;
+  bottom: .5ex;
+  height: 1px;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  /* border-bottom-color is set based on the series color */
+  /* margin-right is set based on the stroke pattern */
+  /* padding-left is set based on the stroke pattern */
+}
+
+.dygraph-roller {
+  position: absolute;
+  z-index: 10;
+}
+
+/* This class is shared by all annotations, including those with icons */
+.dygraph-annotation {
+  position: absolute;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* This class only applies to annotations without icons */
+/* Old class name: .dygraphDefaultAnnotation */
+.dygraph-default-annotation {
+  border: 1px solid black;
+  background-color: white;
+  text-align: center;
+}
+
+.dygraph-axis-label {
+  /* position: absolute; */
+  font-size: 10px;
+  z-index: 10;
+  /* line-height: normal; */
+  line-height: 0.9;
+  overflow: hidden;
+  color: black;  /* replaces old axisLabelColor option */
+  /* width: 60px; mod   */
+}
+
+.dygraph-axis-label-x {
+}
+
+.dygraph-axis-label-y {
+}
+
+.dygraph-axis-label-y2 {
+}
+
+.dygraph-title {
+  font-weight: bold;
+  z-index: 10;
+  text-align: center;
+  /* font-size: based on titleHeight option */
+}
+
+.dygraph-xlabel {
+  text-align: center;
+  /* font-size: based on xLabelHeight option */
+  line-height: 0.8rem; /* mod */
+}
+
+/* For y-axis label */
+.dygraph-label-rotate-left {
+  text-align: center;
+  /* See http://caniuse.com/#feat=transforms2d */
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+}
+
+/* For y2-axis label */
+.dygraph-label-rotate-right {
+  text-align: center;
+  /* See http://caniuse.com/#feat=transforms2d */
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+
+  /* TODO:Dark style */
+  #graphdiv1 .dygraph-axis-label { color: white; }
+  .dygraph-legend { text-align: right; }
+  #graphdiv1 .dygraph-legend { background-color: #101015; }
+  #graphdiv1 div { background-color: darkblue }
+  
+}
+      </style>    
+</head>
+<body>
+
+        <div id="graphdiv1" style="background-color: #E9E7E7;"></div>
+        <script type="text/javascript">
+        Dygraph.onDOMready(function onDOMready() {
+          g1 = new Dygraph(
+        
+            // containing div
+            document.getElementById("graphdiv1"),
+        
+            // CSV or path to a CSV file.
+            // # If you don't specify the labels option, dygraphs will look at the first line of your CSV data to get the labels\n          
+            // "1727867147993,61293.74211108704\n" +
+            // "1727870608099,61160.627929869916\n" +
+            // "1727874022044,60821.807369266025\n" +
+            // "1727878134744,61497.550438711194",
+
+            "test-responseC-bitcoin-241101b.csv", // path to CSV file, mit Datei funktioniert es genauso
+            // options:
+            {
+              axes : {
+                            
+                x: {
+                axisLabelFormatter: function(d) {
+                    // Custom format: TT.MM.JJJ HH:MM
+                    const date = new Date(d);
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const year = date.getFullYear();
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    return `${day}.${month}.${year} ${hours}:${minutes}`;
+                },
+                valueFormatter: Dygraph.dateString_,
+                valueParser: function(x) { return 1000 * parseInt(x); },
+                ticker: Dygraph.dateTicker,
+                },
+              
+                y: {
+                  axisLabelFormatter: function(y) {
+                    // Format: 1.000,00 EUR
+                    return y.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' USD';
+                    // return y.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                  }
+                },
+                rollPeriod: 7,
+                showRoller: true,
+                resizable: "both",
+                titleHeight: 32,
+                strokeWidth: 1.5,
+                // TODO: Bitcoin ersetzen durch tokenId
+                labels: ["Date", "Bitcoin"], // Labels für die Achsen  
+                title: 'Tokenkurve 1',
+                ylabel: 'Wert in USD',
+              },
+          }
+        );
+    });
+    
+    </script>
+ 
+    
+</body>
+</html>

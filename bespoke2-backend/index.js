@@ -142,6 +142,7 @@ app.get('/tokens-t2/:id', async (req, res) => {
 
     try {
         // API C, anhand id Marktwert in US-Dollar, 30 Tage Zeitverlauf.
+        // prices: { [Zeitindex ab 0, Unixzeitpunkt, Preis]}
         const responseC = await axios.get(`https://api.coingecko.com/api/v3/coins/${tokenId}/market_chart?vs_currency=usd&days=30`);
         const tokenDetails = responseC.data;
 
