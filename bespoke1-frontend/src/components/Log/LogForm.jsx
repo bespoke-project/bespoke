@@ -75,11 +75,18 @@ const LogForm = () => {
 
   return (
     <>
-      <div className="card bg-base-100 w-96 shadow-2xl p-5">
+      <div className="card bg-base-100 w-96 shadow-2xl p-5 ">
         {/* Ersetze den Text durch das Logo
         <div className="flex justify-center pb-6">
           <img src={logo} alt="Bespoke Logo" className="h-20 w-auto" />
         </div> */}
+                <div className="flex-none">
+          <img
+            src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
+            alt="Logo"
+            className="h-20 w-auto mx-auto m-10"
+          />
+        </div>
         <h2 className="text-xl text-center font-semibold">Login</h2>
         <form onSubmit={handleLoginSubmit}>
           <div className="form-control">

@@ -1,7 +1,5 @@
-//import logo direct from public folder
 import { useEffect, useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
-
+import { Link, useNavigate, useLocation } from "react-router-dom"; // Importiere useLocation für die aktuelle Route
 import { useAuth } from "../context/AuthProvider"; // Importiere die Auth-Hook
 
 const Navbar = () => {
@@ -11,6 +9,7 @@ const Navbar = () => {
   const { userData } = useAuth();
   const [isCookieAvailable, setIsCookieAvailable] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // Verwende useLocation, um die aktuelle Route zu überprüfen
 
   // Funktion zum Auslesen des Tokens aus den Cookies
   const getCookieValue = (name) => {
@@ -95,23 +94,18 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        <div className="flex-none">
-          <img
-            src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
-            alt="Logo"
-            className="h-20 w-auto mx-auto"
-          />
-        </div>
+        {/* Logo nur anzeigen, wenn die aktuelle Route nicht "/" ist */}
+        {location.pathname !== "/" && (
+          <div className="flex-none">
+            <img
+              src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
+              alt="Logo"
+              className="h-20 w-auto mx-auto"
+            />
+          </div>
+        )}
         <div className="flex-1 flex justify-end">
-          {/* Rechts ausgerichteter Begrüßungstext */}
-          <div className="flex-1 flex justify-end items-center">
-            {userData && (
-              <div className="text-xl font-semibold mr-4">
-                Welcome, {userData.firstName}
-              </div>
-            )}
-
-<ul className="menu menu-horizontal px-1">
+          <ul className="menu menu-horizontal px-1">
             {isCookieAvailable ? (
               <>
                 <li>
@@ -138,7 +132,6 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-    </div>
     </>
   );
 };
