@@ -1,5 +1,3 @@
-// src/App.jsx
-import React from "react";
 import {
   createRoutesFromElements,
   Route,
@@ -14,12 +12,13 @@ import Search from "./pages/Search";
 import Profile from "./pages/Profile";
 import Details from "./pages/Details";
 import { TokenProvider } from "./context/TokenContext";
+import { AuthProvider } from "./context/AuthProvider";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
-      <Route index element={<Home />} />
-      <Route path="/login" element={<Login />} />
+      <Route index element={<Login />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/search" element={<Search />} />
       <Route path="/profile" element={<Profile />} />
@@ -32,9 +31,11 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    <TokenProvider>
-      <RouterProvider router={router} />
-    </TokenProvider>
+    <AuthProvider>
+      <TokenProvider>
+        <RouterProvider router={router} />
+      </TokenProvider>
+    </AuthProvider>
   );
 }
 
