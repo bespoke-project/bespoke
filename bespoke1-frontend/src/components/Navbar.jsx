@@ -1,7 +1,6 @@
+//import logo direct from public folder
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import logo from "C:/users/samis/Desktop/wbs-coding-school/Abschlussprojekt/bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp";
-
 import { useAuth } from "../context/AuthProvider"; // Importiere die Auth-Hook
 
 const Navbar = () => {
@@ -61,10 +60,15 @@ const Navbar = () => {
             </svg>
           </label>
         </div>
-        {/* Mittig zentriertes Logo
         <div className="flex-none">
-          <img src={logo} alt="Logo" className="h-20 w-auto mx-auto" />
-        </div> */}
+
+          <img
+            src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
+            alt="Logo"
+            className="h-20 w-auto mx-auto"
+          />
+        </div>
+        <div className="flex-1 flex justify-end">
 
         {/* Rechts ausgerichteter Begrüßungstext */}
         <div className="flex-1 flex justify-end items-center">
@@ -73,6 +77,7 @@ const Navbar = () => {
               Welcome, {userData.firstName}
             </div>
           )}
+
           <ul className="menu menu-horizontal px-1">
             <li>
               <Link to="/home">Home</Link>
