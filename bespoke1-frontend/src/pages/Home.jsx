@@ -1,4 +1,4 @@
-import DetailHome from "../components/Home/DeatilHome";
+import DetailHome from "../components/Home/DetailHome";
 import TokenHome from "../components/Home/TokenHome";
 
 const Home = () => {
