@@ -181,6 +181,7 @@
                     // return y.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                   }
                 },
+                labels: ["Date", "Bitcoin"], // Labels für die Achsen  
               },
               rollPeriod: 7,
               showRoller: true,
@@ -188,8 +189,7 @@
               titleHeight: 32,
               strokeWidth: 1.5,
               // TODO: Bitcoin ersetzen durch tokenId
-              labels: ["Date", "Bitcoin"], // Labels für die Achsen  
-              title: 'Tokenkurve 1',
+              title: 'Tokenkurve 1 / Asset: Bitcoin',
               ylabel: 'Wert in USD',
           }
         );
