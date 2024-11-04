@@ -1,6 +1,7 @@
+//import logo direct from public folder
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import logo from "/Users/siamak/Desktop/FinalProjekt/bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp";
+import { Link,useNavigate } from "react-router-dom";
+
 import { useAuth } from "../context/AuthProvider"; // Importiere die Auth-Hook
 
 const Navbar = () => {
@@ -94,13 +95,23 @@ const Navbar = () => {
             </div>
           )}
         </div>
-        {/* Mittig zentriertes Logo */}
         <div className="flex-none">
-          <img src={logo} alt="Logo" className="h-20 w-auto mx-auto" />
+          <img
+            src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
+            alt="Logo"
+            className="h-20 w-auto mx-auto"
+          />
         </div>
-        {/* Rechts ausgerichtetes Menü */}
-        <div className="flex-1 flex justify-end items-center">
-          <ul className="menu menu-horizontal px-1">
+        <div className="flex-1 flex justify-end">
+          {/* Rechts ausgerichteter Begrüßungstext */}
+          <div className="flex-1 flex justify-end items-center">
+            {userData && (
+              <div className="text-xl font-semibold mr-4">
+                Welcome, {userData.firstName}
+              </div>
+            )}
+
+<ul className="menu menu-horizontal px-1">
             {isCookieAvailable ? (
               <>
                 <li>
@@ -127,6 +138,7 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+    </div>
     </>
   );
 };

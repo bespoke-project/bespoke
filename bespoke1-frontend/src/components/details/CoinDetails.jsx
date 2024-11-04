@@ -1,8 +1,7 @@
-// Hier ggf alle relevanten Coin Daten fetchen und sie dann von hier aus importieren?
-// src/components/details/CoinDetails.jsx
 import React, { useState, useEffect } from "react";
+import AiInfo from "./AiInfo";
 
-const CoinDetails = ({ tokenId, renderContent }) => {
+const CoinDetails = ({ tokenId, renderContent, showAiInfo = false }) => {
   const [coinData, setCoinData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,7 +26,7 @@ const CoinDetails = ({ tokenId, renderContent }) => {
 
         const result = await response.json();
 
-        setCoinData({
+        const tokenData = {
           tokenName: result.name || "N/A",
           tokenAddress: result.contract_address || "N/A",
           blockchain: result.asset_platform_id || "N/A",
@@ -55,7 +54,11 @@ const CoinDetails = ({ tokenId, renderContent }) => {
               value: result.community_data?.reddit_subscribers || "N/A",
             },
           ].filter((social) => social.value !== "N/A"),
-        });
+        };
+
+        console.log("Fetched tokenData:", tokenData);
+
+        setCoinData(tokenData);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -69,8 +72,20 @@ const CoinDetails = ({ tokenId, renderContent }) => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
-  // Render only if coinData exists and has the necessary properties
-  return coinData && renderContent ? renderContent(coinData) : null;
+  return (
+    <div>
+      {coinData && renderContent(coinData)}
+      {showAiInfo && coinData.tokenAddress !== "N/A" && (
+        <div className="p-4 rounded-lg shadow-xl">
+          <h3 className="text-lg font-semibold">AI Feedback:</h3>
+          <AiInfo
+            tokenAddress={coinData.tokenAddress}
+            tokenName={coinData.tokenName} // Übergabe von tokenName an AiInfo.jsx
+          />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default CoinDetails;

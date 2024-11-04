@@ -1,9 +1,8 @@
-// src/pages/Details.jsx
-import React from "react";
 import CoinDetails from "../components/details/CoinDetails";
+import AiInfo from "../components/details/AiInfo";
 
 const Details = () => {
-  const tokenId = localStorage.getItem("selectedTokenId"); // tokenId aus LocalStorage lesen
+  const tokenId = localStorage.getItem("selectedTokenId");
 
   if (!tokenId) {
     return (
@@ -29,6 +28,7 @@ const Details = () => {
 
         <CoinDetails
           tokenId={tokenId}
+          showAiInfo={false}
           renderContent={(data) => (
             <div className="space-y-6">
               {/* Token Name */}
@@ -64,6 +64,12 @@ const Details = () => {
                 <p>{data.tokenDescription || "No description available"}</p>
               </div>
 
+              {/* AI Feedback */}
+              <div className="p-4 rounded-lg shadow-xl">
+                <h3 className="text-lg font-semibold">AI Feedback:</h3>
+                <AiInfo tokenAddress={data.tokenAddress} />
+              </div>
+
               {/* Links */}
               <div className="p-4 rounded-lg shadow-xl">
                 <h3 className="text-lg font-semibold">Links:</h3>
@@ -90,10 +96,10 @@ const Details = () => {
                 <p>USD: {data.marketCap?.usd || "N/A"}</p>
               </div>
 
-              {/* Market Cap Verlauf */}
+              {/* Market Cap Trend */}
               <div className="p-4 rounded-lg shadow-xl">
                 <h3 className="text-lg font-semibold">
-                  Market Cap Verlauf (30 Tage):
+                  Market Cap Trend (30 Days):
                 </h3>
                 <p>EUR: {data.marketCapTrend?.eur.join(", ") || "N/A"}</p>
                 <p>USD: {data.marketCapTrend?.usd.join(", ") || "N/A"}</p>
@@ -112,35 +118,35 @@ const Details = () => {
                 <p>{data.holderCount || "N/A"}</p>
               </div>
 
-              {/* Handelsvolumen */}
+              {/* Trading Volume */}
               <div className="p-4 rounded-lg shadow-xl">
                 <h3 className="text-lg font-semibold">
-                  Handelsvolumen (7 Tage):
+                  Trading Volume (7 Days):
                 </h3>
-                <p>Käufe (EUR): {data.volume?.buys?.eur || "N/A"}</p>
-                <p>Käufe (USD): {data.volume?.buys?.usd || "N/A"}</p>
-                <p>Verkäufe (EUR): {data.volume?.sells?.eur || "N/A"}</p>
-                <p>Verkäufe (USD): {data.volume?.sells?.usd || "N/A"}</p>
+                <p>Buys (EUR): {data.volume?.buys?.eur || "N/A"}</p>
+                <p>Buys (USD): {data.volume?.buys?.usd || "N/A"}</p>
+                <p>Sells (EUR): {data.volume?.sells?.eur || "N/A"}</p>
+                <p>Sells (USD): {data.volume?.sells?.usd || "N/A"}</p>
               </div>
 
-              {/* Aktueller Preis */}
+              {/* Current Price */}
               <div className="p-4 rounded-lg shadow-xl">
-                <h3 className="text-lg font-semibold">Aktueller Preis:</h3>
+                <h3 className="text-lg font-semibold">Current Price:</h3>
                 <p>EUR: {data.price?.eur || "N/A"}</p>
                 <p>USD: {data.price?.usd || "N/A"}</p>
               </div>
 
-              {/* Preisverlauf */}
+              {/* Price Trend */}
               <div className="p-4 rounded-lg shadow-xl">
                 <h3 className="text-lg font-semibold">
-                  Preisverlauf (24 Stunden):
+                  Price Trend (24 Hours):
                 </h3>
                 <p>EUR: {data.priceTrend24h?.eur.join(", ") || "N/A"}</p>
                 <p>USD: {data.priceTrend24h?.usd.join(", ") || "N/A"}</p>
               </div>
               <div className="p-4 rounded-lg shadow-xl">
                 <h3 className="text-lg font-semibold">
-                  Preisverlauf (30 Tage):
+                  Price Trend (30 Days):
                 </h3>
                 <p>EUR: {data.priceTrend30d?.eur.join(", ") || "N/A"}</p>
                 <p>USD: {data.priceTrend30d?.usd.join(", ") || "N/A"}</p>
