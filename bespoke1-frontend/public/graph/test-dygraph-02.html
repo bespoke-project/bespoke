@@ -138,13 +138,36 @@
 </head>
 <body>
 
-        <div id="graphdiv1" style="background-color: #E9E7E7;"></div>
+        <div id="graphdiv2" style="background-color: #E9E7E7; width:800px; height:400px;"></div>
+        <p><b>Display: </b>
+          <input type=checkbox id=0 onClick="change(this)" checked>
+          <label for="0"> bitcoin</label>
+          <input type=checkbox id=1 onClick="change(this)" checked>
+          <label for="1"> invento1</label>
+          <input type=checkbox id=2 onClick="change(this)" checked>
+          <label for="2"> phantasia1</label>
+          <input type=checkbox id=3 onClick="change(this)" checked>
+          <label for="0"> invento3 (leere Spalte, ok)</label>
+          <input type=checkbox id=4 onClick="change(this)" checked>
+          <label for="1"> invento4</label>
+          <hr>
+          <input type=checkbox id=5 onClick="change(this)" checked>
+          <label for="2"> invento5</label>
+          <input type=checkbox id=6 onClick="change(this)" checked>
+          <label for="0"> invento6</label>
+          <input type=checkbox id=7 onClick="change(this)" checked>
+          <label for="1"> invento7</label>
+          <input type=checkbox id=8 onClick="change(this)" checked>
+          <label for="2"> phantasia2</label>
+          </p>
+
+
         <script type="text/javascript">
         Dygraph.onDOMready(function onDOMready() {
-          g1 = new Dygraph(
+          g2chart = new Dygraph(
         
             // containing div
-            document.getElementById("graphdiv1"),
+            document.getElementById("graphdiv2"),
         
             // CSV or path to a CSV file.
             // # If you don't specify the labels option, dygraphs will look at the first line of your CSV data to get the labels\n          
@@ -153,7 +176,7 @@
             // "1727874022044,60821.807369266025\n" +
             // "1727878134744,61497.550438711194",
 
-            "test-responseC-bitcoin-241101b.csv", // path to CSV file, mit Datei funktioniert es genauso
+            "test-responseC-bitcoin-241104c.csv", // path to CSV file, mit Datei funktioniert es genauso
             // options:
             {
               axes : {
@@ -181,22 +204,31 @@
                     // return y.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                   }
                 },
+                labels: ["Date", "Bitcoin"], // Labels für die Achsen  
               },
+              width: 640,
+              height: 480,
+              colors: ['#284785', '#EE1111', '#8AE234','#226644','#654f32'],
+              visibility: [true, true, true,true,true],
               rollPeriod: 7,
               showRoller: true,
               resizable: "both",
               titleHeight: 32,
               strokeWidth: 1.5,
               // TODO: Bitcoin ersetzen durch tokenId
-              labels: ["Date", "Bitcoin"], // Labels für die Achsen  
-              title: 'Tokenkurve 1',
-              ylabel: 'Wert in USD',
+              title: 'Tokenkurve 2',
+              // ylabel: 'Wert in USD',
           }
         );
     });
+    // check pro Reihe (sonst u.U. gesamter Graph weg): visibility, colors, display-Kästchen, Werte in Datei
+
+    function change(el) {
+        g2chart.setVisibility(el.id, el.checked);
+      }
     
     </script>
-
+ 
 
     
 </body>
