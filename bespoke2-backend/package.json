@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --require dotenv/config  index.js"
+    "test2": "nodemon --require dotenv/config ./services/testFetchData.js",
+    "dev": "nodemon --require dotenv/config index.js"
   },
   "author": "bespoke team",
   "license": "ISC",
@@ -15,11 +16,15 @@
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "csv-writer": "^1.6.0",
     "dotenv": "^16.4.5",
     "dygraphs": "^2.2.1",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "node-cron": "^3.0.3",
     "nodemon": "^3.1.7",
+    "p-limit": "^6.1.0",
     "pg": "^8.13.1",
     "sequelize": "^6.37.5"
   }

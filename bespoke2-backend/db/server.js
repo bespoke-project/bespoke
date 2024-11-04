@@ -1,10 +1,19 @@
 import { Sequelize } from "sequelize";
+import dotenv from 'dotenv';
+dotenv.config();
 
+function maskSensitiveInfo(url) {
+  return url.replace(/\/\/(.*?):(.*?)@/, '//***:***@');
+}
+
+// new Sequelize
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  logging: console.log, // Alle SQL-Queries werden im Log ausgegeben // Debug
   define: {
     freezeTableName: true,
   },
 });
+console.log('DATABASE_URL:', maskSensitiveInfo(process.env.DATABASE_URL));
 
 const connectDB = async () => {
   try {

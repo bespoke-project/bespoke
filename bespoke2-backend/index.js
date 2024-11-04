@@ -4,6 +4,14 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 import authRouter from "./routes/authRouter.js";
 import postsRouter from "./routes/postsRouter.js";
 import cookieParser from "cookie-parser";
+// TODO: Komplex in Vorbereitung
+//import axios from 'axios'; () // schon unten
+import fs from 'fs'; // bei node.js
+import { createObjectCsvWriter } from 'csv-writer';
+//import { Client } from 'pg'; // Falls DB-Operationen über Sequelize hinaus
+// import cron from 'node-cron';
+import { exec } from 'child_process';  // fuer Bash-Script API-Download
+
 // import "./db/connection.js";
 import "./db/server.js";
 // // wichtig (bei Express): bei Scripteinbidnung immer Dateiendung .js angeben
@@ -152,6 +160,35 @@ app.get('/tokens-t2/:id', async (req, res) => {
         next(error);
     }
 });
+
+// Für Cockpit-Button, um API herunterzuladen und in Datei (./data) zu speichern. Zwischenlösung
+app.post('/token-t3script', (req, res) => {
+    exec('bash ./scripts/download_api.sh', (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error executing script: ${error.message}`);
+            return res.status(500).json({ message: 'Error executing script', error: error.message });
+        }
+        if (stderr) {
+            console.error(`Script stderr: ${stderr}`);
+            return res.status(500).json({ message: 'Script error', error: stderr });
+        }
+        console.log(`Script output: ${stdout}`);
+        res.status(200).json({ message: 'Script executed successfully', output: stdout });
+        // Hier zumindest vorerst nicht mit next(error)
+    });
+});
+
+// TODO: data-t3 im Aufbau 
+app.get('/data-t3', async (req, res) => {
+    try {
+      const data = await getDataFromDatabase(); // Funktion, die Daten aus PostgreSQL liest
+      res.json(data);
+    } catch (error) {
+        next(error);
+    }
+  });
+
+
 
 
 // Server starten
