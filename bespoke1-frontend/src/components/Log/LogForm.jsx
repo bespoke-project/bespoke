@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import SignUpModal from "./SignUpModal";
 import { useAuth } from "../../context/AuthProvider";
 import axios from "axios";
+import logo from "/Users/siamak/Desktop/FinalProjekt/bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp"; // Importiere das Logo
 
 const LogForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -67,7 +68,10 @@ const LogForm = () => {
   return (
     <>
       <div className="card bg-base-100 w-96 shadow-2xl p-5">
-        <h1 className="text-3xl text-center pb-9 font-bold">Bespoke</h1>
+        {/* Ersetze den Text durch das Logo */}
+        <div className="flex justify-center pb-6">
+          <img src={logo} alt="Bespoke Logo" className="h-20 w-auto" />
+        </div>
         <h2 className="text-xl text-center font-semibold">Login</h2>
         <form onSubmit={handleLoginSubmit}>
           <div className="form-control">

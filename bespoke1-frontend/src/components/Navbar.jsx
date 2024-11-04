@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import logo from "bespoke1-frontend\src\components\graphics\Bespoke!Logo.webp";
+import logo from "/Users/siamak/Desktop/FinalProjekt/bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp";
+import { useAuth } from "../context/AuthProvider"; // Importiere die Auth-Hook
 
 const Navbar = () => {
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "garden"
   );
+  const { userData } = useAuth(); // 
 
   const handleChange = (e) => {
     setTheme(e.target.checked ? "dark" : "garden");
@@ -59,18 +61,23 @@ const Navbar = () => {
           </label>
         </div>
         {/* Mittig zentriertes Logo */}
-        {/* <div className="flex-none">
+        <div className="flex-none">
           <img
             src={logo}
             alt="Logo"
-            className="h-20
-           w-auto mx-auto"
+            className="h-20 w-auto mx-auto"
           />
-        </div> */}
-        <div className="flex-1 flex justify-end">
+        </div>
+        {/* Rechts ausgerichteter Begrüßungstext */}
+        <div className="flex-1 flex justify-end items-center">
+          {userData && (
+            <div className="text-xl font-semibold mr-4">
+              Welcome, {userData.username}
+            </div>
+          )}
           <ul className="menu menu-horizontal px-1">
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/home">Home</Link>
             </li>
             <li>
               <Link to="/Profile">Profile</Link>
@@ -79,7 +86,7 @@ const Navbar = () => {
               <Link to="/search">Search</Link>
             </li>
             <li>
-              <Link to="/login">Logout</Link>
+              <Link to="/">Logout</Link>
             </li>
           </ul>
         </div>
