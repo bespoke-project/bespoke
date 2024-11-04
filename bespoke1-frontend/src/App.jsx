@@ -13,7 +13,6 @@ import Profile from "./pages/Profile";
 import Details from "./pages/Details";
 import { TokenProvider } from "./context/TokenContext";
 import { AuthProvider } from "./context/AuthProvider";
-import Sami from "./components/Sami";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

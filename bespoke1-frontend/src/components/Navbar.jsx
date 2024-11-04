@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "/Users/siamak/Desktop/FinalProjekt/bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp";
+// import logo from "C:/users/samis/Desktop/wbs-coding-school/Abschlussprojekt/bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp";
+
 import { useAuth } from "../context/AuthProvider"; // Importiere die Auth-Hook
 
 const Navbar = () => {
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "garden"
   );
-  const { userData } = useAuth(); // 
+  const { userData } = useAuth(); //
 
   const handleChange = (e) => {
     setTheme(e.target.checked ? "dark" : "garden");
@@ -60,19 +61,16 @@ const Navbar = () => {
             </svg>
           </label>
         </div>
-        {/* Mittig zentriertes Logo */}
+        {/* Mittig zentriertes Logo
         <div className="flex-none">
-          <img
-            src={logo}
-            alt="Logo"
-            className="h-20 w-auto mx-auto"
-          />
-        </div>
+          <img src={logo} alt="Logo" className="h-20 w-auto mx-auto" />
+        </div> */}
+
         {/* Rechts ausgerichteter Begrüßungstext */}
         <div className="flex-1 flex justify-end items-center">
           {userData && (
             <div className="text-xl font-semibold mr-4">
-              Welcome, {userData.username}
+              Welcome, {userData.firstName}
             </div>
           )}
           <ul className="menu menu-horizontal px-1">
