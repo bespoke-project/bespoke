@@ -4,8 +4,8 @@ import { PiCoinVerticalDuotone } from "react-icons/pi";
 const CardProfile = () => {
   return (
     <>
-      <div className="card bg-base-100 w-96 shadow-xl">
-        <figure className="px-10 pt-10">
+      <div className="card bg-base-100 w-full max-w-md mx-auto shadow-xl">
+        <figure className="px-4 pt-4 sm:px-10 sm:pt-10">
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Brad_Pitt-69858.jpg/340px-Brad_Pitt-69858.jpg"
             className="rounded-xl"
@@ -26,7 +26,7 @@ const CardProfile = () => {
           <h2 className="card-title">Favorite Coin</h2>
           <div className="flex gap-2 group">
             <PiCoinVerticalDuotone size="20px" />
-            <p className="cursor-pointer ">Bitcoin</p>
+            <p className="cursor-pointer">Bitcoin</p>
             <button className="btn btn-xs btn-outline btn-error invisible group-hover:visible">
               Delete
             </button>
@@ -40,7 +40,7 @@ const CardProfile = () => {
           </div>
           <div className="flex gap-2 group">
             <PiCoinVerticalDuotone size="20px" />
-            <p className="cursor-pointer">LietCoin</p>
+            <p className="cursor-pointer">Litecoin</p>
             <button className="btn btn-xs btn-outline btn-error invisible group-hover:visible">
               Delete
             </button>

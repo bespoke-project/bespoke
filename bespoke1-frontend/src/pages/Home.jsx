@@ -1,17 +1,17 @@
-import DeatilHome from "../components/Home/DeatilHome";
+import DetailHome from "../components/Home/DeatilHome";
 import TokenHome from "../components/Home/TokenHome";
 
 const Home = () => {
   return (
     <>
-      <div className="flex gap-16 ml-10">
-        <div className="w-3/12  top-10">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-16 ml-4 md:ml-10">
+        <div className="w-full md:w-3/12">
           <TokenHome />
         </div>
 
-        <div className="w-8/12 flex h-auto ml-auto ">
-          <div className="m-auto">
-            <DeatilHome />
+        <div className="w-full md:w-8/12 flex h-auto">
+          <div className="m-auto w-full">
+            <DetailHome />
           </div>
         </div>
       </div>

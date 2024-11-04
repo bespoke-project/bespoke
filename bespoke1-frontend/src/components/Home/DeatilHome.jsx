@@ -1,86 +1,60 @@
-
 import { useNavigate } from "react-router-dom";
 
 const DetailHome = () => {
-    const navigate =useNavigate()
-const handleMoreClick=()=>{
-    navigate("/details")
-}
+  const navigate = useNavigate();
+  const handleMoreClick = () => {
+    navigate("/details");
+  };
+
   return (
     <>
       <div className="mt-10">
-        <div className="card w-11/12 shadow-2xl m-12">
+        <div className="card w-full md:w-11/12 shadow-2xl mx-auto md:m-12">
           <h1 className="text-center pt-10 font-extrabold text-xl">Details</h1>
 
-          <div className="p-10 flex">
+          <div className="p-4 md:p-10 flex">
             <p className="text-center">
-              Hier ist der Inhalt im p-Tag, der Informationen über Details
-              enthält. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Est quas perspiciatis minima ex aperiam autem dolores molestiae
-              quis excepturi eos dicta id ea, sapiente nobis quisquam quod rem
-              explicabo non pariatur possimus. Porro quaerat modi veniam? Fuga
-              placeat molestias voluptates tempora culpa minus velit quam odio,
-              animi omnis molestiae voluptatum ab veritatis tenetur ut
-              laudantium excepturi harum rem officiis quasi labore pariatur
-              soluta. Non delectus inventore ducimus, quis modi rerum corrupti
-              cumque alias cupiditate officia tempore. Fuga atque odit
-              reiciendis aspernatur molestiae perferendis porro modi?
-              Consectetur beatae non dolorum adipisci at? Esse, est delectus
-              saepe eaque nam beatae non architecto ducimus explicabo minus,
-              autem fuga sunt veniam sapiente ratione. At quis est porro
-              praesentium voluptatem voluptatibus reprehenderit aliquid odit
-              facere amet doloremque temporibus quas tempore perspiciatis saepe
-              similique quam earum illo iusto eos, nesciunt alias omnis
-              voluptate. Nobis, id? Minus expedita, placeat numquam sunt
-              mollitia, illum quam necessitatibus earum, iusto excepturi libero
-              fugit nihil omnis autem ad aspernatur nemo ullam ab quod quidem?
-              Non totam nihil, ab sapiente in, atque aut nostrum qui aliquid
-              quos nulla id et error consequatur! Eius nostrum suscipit facere,
-              architecto ad accusamus sunt? Quae, molestias. Ipsa aliquam fugiat
-              quas fugit ullam atque laboriosam facere. Distinctio eveniet
-              reiciendis repellendus nesciunt aut beatae error dolor voluptatem
-              debitis placeat. Perspiciatis architecto, ullam tempore omnis quae
-              molestias dignissimos! Sunt tempora velit laborum nulla
-              consequuntur odit nemo, cumque qui? Praesentium ullam cumque
-              reiciendis amet quas illo distinctio possimus officia inventore
-              magnam, repellat dolorem error officiis sed odit delectus
-              voluptatibus ipsam.  Hier ist der Inhalt im p-Tag, der Informationen über Details
-              enthält. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Est quas perspiciatis minima ex aperiam autem dolores molestiae
-              quis excepturi eos dicta id ea, sapiente nobis quisquam quod rem
-              explicabo non pariatur possimus. Porro quaerat modi veniam? Fuga
-              placeat molestias voluptates tempora culpa minus velit quam odio,
-              animi omnis molestiae voluptatum ab veritatis tenetur ut
-              laudantium excepturi harum rem officiis quasi labore pariatur
-              soluta. Non delectus inventore ducimus, quis modi rerum corrupti
-              cumque alias cupiditate officia tempore. Fuga atque odit
-              reiciendis aspernatur molestiae perferendis porro modi?
-              Consectetur beatae non dolorum adipisci at? Esse, est delectus
-              saepe eaque nam beatae non architecto ducimus explicabo minus,
-              autem fuga sunt veniam sapiente ratione. At quis est porro
-              praesentium voluptatem voluptatibus reprehenderit aliquid odit
-              facere amet doloremque temporibus quas tempore perspiciatis saepe
-              similique quam earum illo iusto eos, nesciunt alias omnis
-              voluptate. Nobis, id? Minus expedita, placeat numquam sunt
-              mollitia, illum quam necessitatibus earum, iusto excepturi libero
-              fugit nihil omnis autem ad aspernatur nemo ullam ab quod quidem?
-              Non totam nihil, ab sapiente in, atque aut nostrum qui aliquid
-              quos nulla id et error consequatur! Eius nostrum suscipit facere,
-              architecto ad accusamus sunt? Quae, molestias. Ipsa aliquam fugiat
-              quas fugit ullam atque laboriosam facere. Distinctio eveniet
-              reiciendis repellendus nesciunt aut beatae error dolor voluptatem
-              debitis placeat. Perspiciatis architecto, ullam tempore omnis quae
-              molestias dignissimos! Sunt tempora velit laborum nulla
-              consequuntur odit nemo, cumque qui? Praesentium ullam cumque
-              reiciendis amet quas illo distinctio possimus officia inventore
-              magnam, repellat dolorem error officiis sed odit delectus
-              voluptatibus ipsam.
-
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
+              ullam, et aliquam recusandae neque nemo, tenetur earum sunt
+              deserunt veritatis explicabo. Optio voluptatibus accusantium,
+              minima libero doloremque officiis aliquam quisquam praesentium
+              error voluptatem harum vero esse dolorum corrupti officia eum
+              explicabo eaque expedita mollitia tempore soluta quo dicta!
+              Similique sapiente excepturi consequuntur fugiat dolorum commodi
+              sint, ut illo exercitationem aspernatur, quam molestiae? Harum
+              quis tenetur, minus modi quod rem ipsam laboriosam reprehenderit
+              ipsum quam, quo fugit, iure asperiores! Natus et placeat adipisci
+              nesciunt! Error, facere illum dolores tenetur maxime officia
+              magnam deleniti nobis nulla veniam porro totam, amet consectetur
+              inventore cupiditate obcaecati fugit eum ut dolorum aut unde
+              consequuntur quo laboriosam adipisci. Laudantium id voluptatem
+              corrupti nihil quidem maiores tenetur veritatis ipsam ab
+              laboriosam fuga in excepturi aut, quasi ratione minima aspernatur,
+              dolor incidunt! Iure blanditiis molestias accusantium voluptates
+              nobis, similique impedit asperiores quaerat molestiae id ipsum
+              corrupti iusto atque quis quae accusamus repellat eum rerum alias
+              beatae ullam architecto vel. Alias, atque unde iusto sapiente
+              repudiandae voluptatum quis in et recusandae ad? Veniam ad,
+              incidunt vitae porro aspernatur similique, et non nemo voluptate
+              laboriosam tempora provident repellendus quisquam quia animi
+              sapiente ipsam maiores natus? Doloremque suscipit consequuntur
+              deleniti. Ab dolores voluptas recusandae eveniet cupiditate
+              voluptate ut laboriosam reiciendis, eligendi minima provident eos
+              vero tempora sunt quae quidem maiores quam. Quo corrupti sint,
+              repellendus debitis similique atque nostrum voluptates expedita
+              asperiores corporis ullam veritatis consequuntur culpa incidunt
+              est, eveniet dolorem vitae ex quaerat, modi velit quidem facere
+              adipisci. Pariatur, adipisci?
             </p>
           </div>
 
-          <div className="p-10">
-            <button className="btn btn-outline w-72" onClick={handleMoreClick}>More</button>
+          <div className="p-4 md:p-10">
+            <button
+              className="btn btn-outline w-full md:w-72"
+              onClick={handleMoreClick}
+            >
+              More
+            </button>
           </div>
         </div>
       </div>

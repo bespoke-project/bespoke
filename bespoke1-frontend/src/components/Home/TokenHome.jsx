@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-
 const TokenHome = () => {
   const [coins, setCoins] = useState([]);
 
   useEffect(() => {
-    
     axios
       .get("https://api.coingecko.com/api/v3/coins/markets", {
         params: {
@@ -29,19 +27,19 @@ const TokenHome = () => {
   return (
     <>
       <div className="mt-10">
-        <div className="card w-96 shadow-2xl p">
+        <div className="card w-full md:w-96 shadow-2xl mx-auto">
           <h1 className="text-center pt-10 font-extrabold text-xl">Your coin</h1>
-          <div className="p-10 flex">
-            <button className="btn btn-outline w-72">bitcoin</button>
+          <div className="p-4 md:p-10">
+            <button className="btn btn-outline w-full md:w-72">Bitcoin</button>
           </div>
-          <div className="p-10">
-            <button className="btn btn-outline w-72">Lietcoin</button>
+          <div className="p-4 md:p-10">
+            <button className="btn btn-outline w-full md:w-72">Litecoin</button>
           </div>
-          <div className="p-10">
-            <button className="btn btn-outline w-72">DogCoin</button>
+          <div className="p-4 md:p-10">
+            <button className="btn btn-outline w-full md:w-72">DogCoin</button>
           </div>
-          <div className="p-10">
-            <button className="btn btn-outline w-72">Tether</button>
+          <div className="p-4 md:p-10">
+            <button className="btn btn-outline w-full md:w-72">Tether</button>
           </div>
 
           <div className="mt-10">

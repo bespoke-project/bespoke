@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import SignUpModal from "./SignUpModal";
 import { useAuth } from "../../context/AuthProvider";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Importiere useNavigate
 import logo from "/Users/siamak/Desktop/FinalProjekt/bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp"; // Importiere das Logo
 
 const LogForm = () => {
@@ -11,6 +12,7 @@ const LogForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { checkUser } = useAuth();
+  const navigate = useNavigate(); // Initialisiere useNavigate
 
   const handleModalOpen = () => {
     setShowModal(true);
@@ -45,6 +47,12 @@ const LogForm = () => {
           Swal.fire({
             icon: "success",
             title: "Login Successful",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          }).then(() => {
+            // Navigiere zu /home nach erfolgreichem Login
+            navigate("/home");
           });
         }
       } catch (error) {
