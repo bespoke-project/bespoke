@@ -1,3 +1,6 @@
+// Diese Datei wird derzeit nicht verwendet. Stattdessen alles direkt in auth.js
+// TODO Schlussphase: Später (und erst dann) wegräumen.
+
 import pool from '../db/connection.js'; // Dateiendung .js muss bei Express hinzugefügt werden, wenn nicht automatisch übertragen!
 
 //Alle Daten von der Datenbank (all data from users)

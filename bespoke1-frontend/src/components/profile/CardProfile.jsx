@@ -27,12 +27,16 @@ const CardProfile = () => {
           <div className="flex gap-2 group">
             <PiCoinVerticalDuotone size="20px" />
             <p className="cursor-pointer ">Bitcoin</p>
-            <button className="btn btn-xs btn-outline btn-error invisible group-hover:visible">Delete</button>
+            <button className="btn btn-xs btn-outline btn-error invisible group-hover:visible">
+              Delete
+            </button>
           </div>
           <div className="flex gap-2 group">
             <PiCoinVerticalDuotone size="20px" />
             <p className="cursor-pointer">Dogecoin</p>
-            <button className="btn btn-xs btn-outline btn-error invisible group-hover:visible">Delete</button>
+            <button className="btn btn-xs btn-outline btn-error invisible group-hover:visible">
+              Delete
+            </button>
           </div>
           <div className="flex gap-2 group">
             <PiCoinVerticalDuotone size="20px" />

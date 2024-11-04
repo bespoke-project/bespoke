@@ -11,6 +11,9 @@ import Register from "./pages/Register";
 import Search from "./pages/Search";
 import Profile from "./pages/Profile";
 import Details from "./pages/Details";
+import { TokenProvider } from "./context/TokenContext";
+import { AuthProvider } from "./context/AuthProvider";
+import Sami from "./components/Sami";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,15 +21,23 @@ const router = createBrowserRouter(
       <Route index element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/Search" element={<Search />} />
+      <Route path="/search" element={<Search />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/details" element={<Details />} />
+      {/* Info for Route not found: */}
+      <Route path="*" element={<div>404 Not Found</div>} />
     </Route>
   )
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <TokenProvider>
+        <RouterProvider router={router} />
+      </TokenProvider>
+    </AuthProvider>
+  );
 }
 
 export default App;
