@@ -1,6 +1,6 @@
+//import logo direct from public folder
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "/Users/gabriel/WBS/myWDG18/Final-Project/git-bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp";
 
 const Navbar = () => {
   const [theme, setTheme] = useState(
@@ -61,10 +61,9 @@ const Navbar = () => {
         {/* Mittig zentriertes Logo */}
         <div className="flex-none">
           <img
-            src={logo}
+            src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
             alt="Logo"
-            className="h-20
-           w-auto mx-auto"
+            className="h-20 w-auto mx-auto"
           />
         </div>
         <div className="flex-1 flex justify-end">

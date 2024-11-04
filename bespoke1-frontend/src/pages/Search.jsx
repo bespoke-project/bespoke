@@ -1,8 +1,8 @@
-// src/pages/Search.jsx
 import React, { useState, useCallback, useContext } from "react";
-import debounce from "lodash.debounce";
+import debounce from "lodash.debounce"; // Hilft bei der verzögerung von API-Anfragen
 import CoinDetails from "../components/details/CoinDetails";
 import { TokenContext } from "../context/TokenContext";
+import AiInfo from "../components/details/AiInfo";
 
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -10,9 +10,9 @@ const Search = () => {
   const [showDetails, setShowDetails] = useState(false);
   const { setTokenId } = useContext(TokenContext);
 
-  // Funktion, um Vorschläge von CoinGecko zu holen, mit Debounce
   const fetchSuggestions = useCallback(
     debounce(async (input) => {
+      // debounce hilft bei der Verzögerung von API-Anfragen
       try {
         const response = await fetch(
           `https://api.coingecko.com/api/v3/search?query=${input}`
@@ -22,7 +22,7 @@ const Search = () => {
       } catch (error) {
         console.error("Error fetching suggestions:", error);
       }
-    }, 300),
+    }, 500), // 500ms Verzögerung für API-Anfragen
     []
   );
 
@@ -55,7 +55,6 @@ const Search = () => {
   return (
     <div className="min-h-screen p-4">
       <div className="max-w-3xl mx-auto p-6">
-        {/* Search Input und Go Button */}
         <div className="flex items-center space-x-4 mb-6">
           <input
             type="text"
@@ -69,7 +68,6 @@ const Search = () => {
           </button>
         </div>
 
-        {/* Suggestions Dropdown */}
         {suggestions.length > 0 && (
           <div className="dropdown-content bg-base-100 shadow-lg rounded-box w-full p-4 mb-4">
             {suggestions.map((suggestion) => (
@@ -84,12 +82,10 @@ const Search = () => {
           </div>
         )}
 
-        {/* Display Token Details if Search was triggered */}
         {showDetails && localStorage.getItem("selectedTokenId") && (
           <div className="mt-8 p-4 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold text-center mb-6">{query}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Left Panel */}
               <div className="p-4 rounded-lg shadow-inner overflow-hidden">
                 <h3 className="text-lg font-semibold mb-4">Token Overview</h3>
                 <CoinDetails
@@ -131,18 +127,22 @@ const Search = () => {
                           </li>
                         ))}
                       </ul>
+
+                      {/* AI Feedback nur li. panel */}
+                      <h4 className="font-semibold mt-4">AI Feedback</h4>
+                      <AiInfo tokenAddress={data.tokenAddress} />
                     </div>
                   )}
                 />
               </div>
 
-              {/* Right Panel */}
               <div className="p-4 rounded-lg shadow-inner">
                 <h3 className="text-lg font-semibold mb-4">
                   Token Information
                 </h3>
                 <CoinDetails
                   tokenId={localStorage.getItem("selectedTokenId")}
+                  showAiInfo={false} // check das kein AI Feedback im re. panel angezeigt wird
                   renderContent={(data) => (
                     <div className="space-y-2">
                       <p>
@@ -186,7 +186,6 @@ const Search = () => {
               </div>
             </div>
 
-            {/* Add to Collection Button */}
             <div className="text-center mt-6">
               <button className="btn btn-success w-full md:w-auto">
                 Add to Collection
