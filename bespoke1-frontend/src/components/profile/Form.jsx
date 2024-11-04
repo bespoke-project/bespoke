@@ -7,14 +7,14 @@ const Form = () => {
     email: "",
     Password: "",
   });
-  const resatFormData =()=>{
+  const resatFormData = () => {
     setForm({
       name: "",
       LastName: "",
       email: "",
       Password: "",
     });
-  }
+  };
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -68,13 +68,16 @@ const Form = () => {
           />
         </div>
       </div>
-        <div className="max-w-xl m-auto py-4 ">
-            <div className="flex flex-col py-4">
-            <button className="btn btn-success border-gray-300  p-2 rounded-md" onClick={resatFormData}>Update</button>
-            </div>
+      <div className="max-w-xl m-auto py-4 ">
+        <div className="flex flex-col py-4">
+          <button
+            className="btn btn-success border-gray-300  p-2 rounded-md"
+            onClick={resatFormData}
+          >
+            Update
+          </button>
         </div>
-
-
+      </div>
     </>
   );
 };
