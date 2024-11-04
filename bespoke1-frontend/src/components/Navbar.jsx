@@ -61,7 +61,6 @@ const Navbar = () => {
           </label>
         </div>
         <div className="flex-none">
-
           <img
             src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
             alt="Logo"
@@ -69,29 +68,29 @@ const Navbar = () => {
           />
         </div>
         <div className="flex-1 flex justify-end">
+          {/* Rechts ausgerichteter Begrüßungstext */}
+          <div className="flex-1 flex justify-end items-center">
+            {userData && (
+              <div className="text-xl font-semibold mr-4">
+                Welcome, {userData.firstName}
+              </div>
+            )}
 
-        {/* Rechts ausgerichteter Begrüßungstext */}
-        <div className="flex-1 flex justify-end items-center">
-          {userData && (
-            <div className="text-xl font-semibold mr-4">
-              Welcome, {userData.firstName}
-            </div>
-          )}
-
-          <ul className="menu menu-horizontal px-1">
-            <li>
-              <Link to="/home">Home</Link>
-            </li>
-            <li>
-              <Link to="/Profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/search">Search</Link>
-            </li>
-            <li>
-              <Link to="/">Logout</Link>
-            </li>
-          </ul>
+            <ul className="menu menu-horizontal px-1">
+              <li>
+                <Link to="/home">Home</Link>
+              </li>
+              <li>
+                <Link to="/Profile">Profile</Link>
+              </li>
+              <li>
+                <Link to="/search">Search</Link>
+              </li>
+              <li>
+                <Link to="/">Logout</Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </>
