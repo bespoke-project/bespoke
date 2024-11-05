@@ -13,7 +13,7 @@ async function fetchBaseData() {
         const jsonDataA = apicoins;
         // const jsonData = data
         // Nur die ersten Einträge auswählen, um die Last zu testen
-        return jsonDataA.slice(0, 10);
+        return jsonDataA.slice(0, 20);
     } catch (error) {
         error.message = `Fehler beim Abrufen der Basis-Stammdaten (via Datei): ${error.message}`;
         throw error;
@@ -52,10 +52,12 @@ export async function fetchAndStoreDailyDataA1(req, res, next) {
 
         // Speichern der Daten in der Datenbank
         for (const asset of baseData) {
-            await Asset.upsert({
+            // await Asset.upsert({
+                await Asset.create({
                 asset_id: asset.id,
                 asset_name: asset.name,
             });
+            console.log(asset);
         }
 
         res.status(200).json({ message: 'Daten erfolgreich abgerufen und gespeichert.' });
