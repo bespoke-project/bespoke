@@ -96,11 +96,14 @@ const Navbar = () => {
         {/* Logo nur anzeigen, wenn die aktuelle Route nicht "/" ist */}
         {location.pathname !== '/' && (
           <div className='flex-none'>
-            <img
-              src='/Bespoke!Logo.webp' // Logo aus dem public Ordner
-              alt='Logo'
-              className='h-20 w-auto mx-auto'
-            />
+            <Link to='/home'>
+              {' '}
+              <img
+                src='/Bespoke!Logo.webp' // Logo aus dem public Ordner
+                alt='Logo'
+                className='h-20 w-auto mx-auto'
+              />
+            </Link>
           </div>
         )}
         <div className='flex-1 flex justify-end'>
