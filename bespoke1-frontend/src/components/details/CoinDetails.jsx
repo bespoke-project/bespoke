@@ -115,6 +115,14 @@ const CoinDetails = ({
     fetchCoinData();
   }, [tokenId, onCoinDataLoad]);
 
+  const formatNumber = (number) => {
+    return new Intl.NumberFormat('de-DE', {
+      style: 'decimal',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(number);
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div className='text-red-500'>Error: {error}</div>;
 
@@ -163,8 +171,18 @@ const CoinDetails = ({
           {/* 7. Current Price */}
           <div className='mb-4'>
             <strong>Current Price:</strong>
-            <p>EUR: {coinData.price.eur}</p>
-            <p>USD: {coinData.price.usd}</p>
+            <p>
+              EUR:{' '}
+              {coinData.liquidity?.eur
+                ? formatNumber(coinData.price.eur)
+                : 'N/A'}
+            </p>
+            <p>
+              USD:{' '}
+              {coinData.liquidity?.usd
+                ? formatNumber(coinData.price.usd)
+                : 'N/A'}
+            </p>
           </div>
 
           {/* 8. Price Trend (24 Hours) */}
@@ -232,8 +250,19 @@ const CoinDetails = ({
           {/* 10. Market Cap */}
           <div className='mb-4'>
             <strong>Market Cap:</strong>
-            <p>EUR: {coinData.marketCap.eur}</p>
-            <p>USD: {coinData.marketCap.usd}</p>
+
+            <p>
+              EUR:{' '}
+              {coinData.liquidity?.eur
+                ? formatNumber(coinData.marketCap.eur)
+                : 'N/A'}
+            </p>
+            <p>
+              USD:{' '}
+              {coinData.liquidity?.usd
+                ? formatNumber(coinData.marketCap.usd)
+                : 'N/A'}
+            </p>
           </div>
 
           {/* 11. Market Cap Trend (30 Days) */}
@@ -271,8 +300,18 @@ const CoinDetails = ({
           {/* 12. Current Liquidity */}
           <div className='mb-4'>
             <strong>Current Liquidity:</strong>
-            <p>EUR: {coinData.liquidity.eur}</p>
-            <p>USD: {coinData.liquidity.usd}</p>
+            <p>
+              EUR:{' '}
+              {coinData.liquidity?.eur
+                ? formatNumber(coinData.liquidity.eur)
+                : 'N/A'}
+            </p>
+            <p>
+              USD:{' '}
+              {coinData.liquidity?.usd
+                ? formatNumber(coinData.liquidity.usd)
+                : 'N/A'}
+            </p>
           </div>
 
           {/* 13. Holder Count */}
