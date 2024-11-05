@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useAuth } from '../../context/AuthProvider';
+import axios from 'axios';
+import { ClipLoader } from 'react-spinners';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 const Form = () => {
   const { userData, setUserData } = useAuth();
@@ -13,7 +15,9 @@ const Form = () => {
     confirmPassword: '',
     image: userData.image || '',
   });
+  const [file, setFile] = useState(null);
   const [alertVisible, setAlertVisible] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -27,10 +31,15 @@ const Form = () => {
       confirmPassword: '',
       image: userData.image || '',
     });
+    setFile(null);
   };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -40,20 +49,27 @@ const Form = () => {
       return;
     }
 
-    // Only send non-empty fields
-    const updatedData = {};
-    if (form.name) updatedData.firstName = form.name;
-    if (form.lastName) updatedData.lastName = form.lastName;
-    if (form.username) updatedData.username = form.username;
-    if (form.email) updatedData.email = form.email;
-    if (form.image) updatedData.image = form.image;
-    if (form.password) updatedData.password = form.password;
-
     try {
+      setLoading(true);
+      const formData = new FormData();
+
+      if (form.name) formData.append('firstName', form.name);
+      if (form.lastName) formData.append('lastName', form.lastName);
+      if (form.username) formData.append('username', form.username);
+      if (form.email) formData.append('email', form.email);
+      if (form.password) formData.append('password', form.password);
+
+      if (file) formData.append('image', file);
+
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/auth/update`,
-        updatedData,
-        { withCredentials: true }
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: true,
+        }
       );
 
       setUserData(response.data.user);
@@ -65,6 +81,8 @@ const Form = () => {
       }, 3000);
     } catch (error) {
       console.error('Error updating profile:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -141,7 +159,7 @@ const Form = () => {
             onClick={() => setShowPassword(!showPassword)}
             className='absolute right-2 top-9'
           >
-            {showPassword ? 'Hide' : 'Show'}
+            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
           </button>
         </div>
         {/* Confirm Password Field */}
@@ -161,31 +179,44 @@ const Form = () => {
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             className='absolute right-2 top-9'
           >
-            {showConfirmPassword ? 'Hide' : 'Show'}
+            {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
           </button>
         </div>
-        {/* Photo Field */}
+        {/* File Upload Field */}
         <div className='flex flex-col'>
           <label className='text-lg'>Photo</label>
           <input
             className='border border-gray-300 p-2 rounded-md w-full'
             name='image'
-            placeholder='Enter image URL (Optional)'
-            onChange={handleChange}
-            type='text'
-            value={form.image}
+            type='file'
+            accept='image/*'
+            onChange={handleFileChange}
           />
+          {/* Preview the selected image */}
+          {file && (
+            <img
+              src={URL.createObjectURL(file)}
+              alt='Preview'
+              className='mt-4 w-24 h-24 object-cover rounded-full'
+            />
+          )}
         </div>
         {/* Submit Button */}
-        <div className='flex justify-center'>
+        <div className='flex justify-center items-center'>
           <button
             type='submit'
             className='btn btn-success border-gray-300 p-2 rounded-md w-full sm:w-auto'
+            disabled={loading}
           >
-            Update
+            {loading ? <ClipLoader size={20} color='#fff' /> : 'Update'}
           </button>
         </div>
       </form>
+      {loading && (
+        <p className='text-center mt-4 text-green-600'>
+          Updating profile, please wait...
+        </p>
+      )}
     </div>
   );
 };
