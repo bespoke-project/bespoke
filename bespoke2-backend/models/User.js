@@ -24,14 +24,21 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue:
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+  },
+
   date: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
   favorites: {
-    type: DataTypes.JSON, // Hier wird das JSON-Datenformat verwendet
+    type: DataTypes.JSON,
     allowNull: true,
-    defaultValue: [], // Standardmäßig ein leeres Array
+    defaultValue: [],
   },
 });
 
