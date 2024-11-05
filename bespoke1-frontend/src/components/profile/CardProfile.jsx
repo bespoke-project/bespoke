@@ -1,5 +1,5 @@
 import { IoMail, IoPerson } from "react-icons/io5";
-import { PiCoinVerticalDuotone } from "react-icons/pi";
+// import { PiCoinVerticalDuotone } from "react-icons/pi";
 import { useAuth } from "../../context/AuthProvider";
 
 const CardProfile = () => {
