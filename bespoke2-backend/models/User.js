@@ -1,7 +1,7 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../db/server.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../db/server.js';
 
-const User = sequelize.define("User", {
+const User = sequelize.define('User', {
   firstName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -27,10 +27,9 @@ const User = sequelize.define("User", {
   image: {
     type: DataTypes.STRING,
     allowNull: true,
-    defaultValue:
-      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+    //   defaultValue:
+    //     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
   },
-
   date: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
