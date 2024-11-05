@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "../../context/AuthProvider";
 
 const TokenHome = () => {
   const [coins, setCoins] = useState([]);
-
+  const { userData } = useAuth();
   useEffect(() => {
+    // Fetch coins data from CoinGecko
     axios
       .get("https://api.coingecko.com/api/v3/coins/markets", {
         params: {
@@ -16,7 +18,9 @@ const TokenHome = () => {
         },
       })
       .then((response) => {
-        const shuffledCoins = response.data.sort(() => 0.5 - Math.random()).slice(0, 4);
+        const shuffledCoins = response.data
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 4);
         setCoins(shuffledCoins);
       })
       .catch((error) => {
@@ -28,26 +32,30 @@ const TokenHome = () => {
     <>
       <div className="mt-10">
         <div className="card w-full md:w-96 shadow-2xl mx-auto">
-          <h1 className="text-center pt-10 font-extrabold text-xl">Your coin</h1>
-          <div className="p-4 md:p-10">
-            <button className="btn btn-outline w-full md:w-72">Bitcoin</button>
-          </div>
-          <div className="p-4 md:p-10">
-            <button className="btn btn-outline w-full md:w-72">Litecoin</button>
-          </div>
-          <div className="p-4 md:p-10">
-            <button className="btn btn-outline w-full md:w-72">DogCoin</button>
-          </div>
-          <div className="p-4 md:p-10">
-            <button className="btn btn-outline w-full md:w-72">Tether</button>
-          </div>
+          <h1 className="text-center pt-10 font-extrabold text-xl">
+            Your coin
+          </h1>
+
+          {userData.favorites &&
+            userData.favorites.map((favorite, index) => (
+              <div key={index} className="p-4 md:p-10">
+                <button className="btn btn-outline w-full md:w-72">
+                  {favorite.coinName}
+                </button>
+              </div>
+            ))}
 
           <div className="mt-10">
             <h2 className="text-center font-bold text-lg">Your suggestion</h2>
             {coins.map((coin) => (
-              <div key={coin.id} className="p-4 flex justify-between items-center">
+              <div
+                key={coin.id}
+                className="p-4 flex justify-between items-center"
+              >
                 <span className="font-semibold">{coin.name}</span>
-                <span className="text-sm text-gray-600">${coin.current_price.toFixed(2)}</span>
+                <span className="text-sm text-gray-600">
+                  ${coin.current_price.toFixed(2)}
+                </span>
               </div>
             ))}
           </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Importiere useLocation für die aktuelle Route
-import { useAuth } from "../context/authProvider"; // Importiere die Auth-Hook
+import { useAuth } from "../context/AuthProvider";
 
 const Navbar = () => {
   const [theme, setTheme] = useState(
@@ -9,9 +9,8 @@ const Navbar = () => {
   const { userData } = useAuth();
   const [isCookieAvailable, setIsCookieAvailable] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation(); // Verwende useLocation, um die aktuelle Route zu überprüfen
+  const location = useLocation();
 
-  // Funktion zum Auslesen des Tokens aus den Cookies
   const getCookieValue = (name) => {
     const match = document.cookie.match(
       new RegExp("(^| )" + name + "=([^;]+)")
