@@ -3,8 +3,11 @@ import { useAuth } from "../../context/AuthProvider";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Form = () => {
+  const navigate = useNavigate();
   const { userData, setUserData } = useAuth();
   const [form, setForm] = useState({
     name: userData.firstName || "",
@@ -83,6 +86,46 @@ const Form = () => {
       console.error("Error updating profile:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Delete",
+      backdrop: true, // This line will block the background content when the alert is visible
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/auth/delete`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        });
+
+        setUserData(null); // Clear user data after deletion
+
+        Swal.fire("Deleted!", "Your account has been deleted.", "success").then(
+          () => {
+            // Redirect to the login page using the absolute URL
+            window.location.href = "http://localhost:5173/"; // Redirect to the login page directly
+          }
+        );
+      } catch (error) {
+        console.error("Error deleting account:", error);
+        Swal.fire(
+          "Error!",
+          "There was an error deleting your account.",
+          "error"
+        );
+      }
     }
   };
 
@@ -217,6 +260,15 @@ const Form = () => {
           Updating profile, please wait...
         </p>
       )}
+      {/* Delete Button */}
+      <div className="flex justify-center items-center mt-6">
+        <button
+          onClick={handleDelete}
+          className="btn btn-danger border-gray-300 p-2 rounded-md w-full sm:w-auto"
+        >
+          Delete Account
+        </button>
+      </div>
     </div>
   );
 };
