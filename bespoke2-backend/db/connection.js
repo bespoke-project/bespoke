@@ -1,3 +1,5 @@
+// DB-Verbindung ohne Sequelize, aktuell inaktiv
+// TODO Schlussphase: Datei kann später weggeräumt werden; wird derzeit noch gebraucht.
 import pg from "pg";
 const { Pool } = pg;
 
