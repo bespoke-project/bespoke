@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
 
-  console.log(userData);
+  // console.log(userData);
 
   const checkUser = async () => {
     try {

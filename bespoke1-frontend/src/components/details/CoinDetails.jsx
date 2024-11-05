@@ -47,11 +47,11 @@ const CoinDetails = ({
         const response = await fetch(
           `https://api.coingecko.com/api/v3/coins/${tokenId}`
         );
+
         if (!response.ok)
           throw new Error(`Error fetching data for token ID: ${tokenId}`);
 
         const result = await response.json();
-
         const marketDataResponse = await fetch(
           `https://api.coingecko.com/api/v3/coins/${tokenId}/market_chart?vs_currency=usd&days=30`
         );
@@ -60,7 +60,9 @@ const CoinDetails = ({
         const tokenData = {
           tokenId,
           tokenName: result.name || 'N/A',
-          tokenAddress: result.contract_address || 'N/A',
+          // Fetch token address from "detail_platforms"
+          tokenAddress:
+            result.detail_platforms?.ethereum?.contract_address || 'N/A',
           blockchain: result.asset_platform_id || 'N/A',
           image: result.image?.large || null,
           tokenDescription:
@@ -146,45 +148,32 @@ const CoinDetails = ({
           <div className='mb-4'>
             <strong>Token Address:</strong> {coinData.tokenAddress}
           </div>
-
           {/* 3. Blockchain */}
           <div className='mb-4'>
             <strong>Blockchain:</strong> {coinData.blockchain}
           </div>
-
           {/* 5. Token Description */}
           <div className='mb-4'>
             <strong>Description:</strong> {coinData.tokenDescription}
           </div>
-
           {/* 6. AI Feedback */}
-          {showAiInfo && coinData.tokenAddress !== 'N/A' && (
-            <div className='p-4 rounded-lg shadow-xl mb-4'>
-              <h3 className='text-lg font-semibold'>AI Feedback:</h3>
-              <AiInfo
-                tokenAddress={coinData.tokenAddress}
-                tokenName={coinData.tokenName}
-              />
-            </div>
-          )}
+          <div className='p-4 rounded-lg shadow-xl mb-4'>
+            <h3 className='text-lg font-semibold'>AI Feedback:</h3>
+            <AiInfo tokenName={coinData.tokenName} />
+          </div>
 
           {/* 7. Current Price */}
           <div className='mb-4'>
             <strong>Current Price:</strong>
             <p>
               EUR:{' '}
-              {coinData.liquidity?.eur
-                ? formatNumber(coinData.price.eur)
-                : 'N/A'}
+              {coinData.price.eur ? formatNumber(coinData.price.eur) : 'N/A'}
             </p>
             <p>
               USD:{' '}
-              {coinData.liquidity?.usd
-                ? formatNumber(coinData.price.usd)
-                : 'N/A'}
+              {coinData.price.usd ? formatNumber(coinData.price.usd) : 'N/A'}
             </p>
           </div>
-
           {/* 8. Price Trend (24 Hours) */}
           <div className='p-4 rounded-lg shadow-xl mb-4'>
             <h3 className='text-lg font-semibold'>Price Trend (24 Hours):</h3>
@@ -216,7 +205,6 @@ const CoinDetails = ({
               }}
             />
           </div>
-
           {/* 9. Price Trend (30 Days) */}
           <div className='p-4 rounded-lg shadow-xl mb-4'>
             <h3 className='text-lg font-semibold'>Price Trend (30 Days):</h3>
@@ -246,7 +234,6 @@ const CoinDetails = ({
               }}
             />
           </div>
-
           {/* 10. Market Cap */}
           <div className='mb-4'>
             <strong>Market Cap:</strong>
@@ -264,7 +251,6 @@ const CoinDetails = ({
                 : 'N/A'}
             </p>
           </div>
-
           {/* 11. Market Cap Trend (30 Days) */}
           <div className='p-4 rounded-lg shadow-xl mb-4'>
             <h3 className='text-lg font-semibold'>
@@ -296,7 +282,6 @@ const CoinDetails = ({
               }}
             />
           </div>
-
           {/* 12. Current Liquidity */}
           <div className='mb-4'>
             <strong>Current Liquidity:</strong>
@@ -313,12 +298,10 @@ const CoinDetails = ({
                 : 'N/A'}
             </p>
           </div>
-
           {/* 13. Holder Count */}
           <div className='mb-4'>
             <strong>Holder Count:</strong> {coinData.holderCount}
           </div>
-
           {/* 14. Social Media Information */}
           <h4 className='font-semibold mt-4'>Social Media Information</h4>
           <ul className='list-disc list-inside'>
