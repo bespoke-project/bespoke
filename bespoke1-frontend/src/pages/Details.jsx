@@ -1,10 +1,40 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Line } from 'react-chartjs-2';
 import CoinDetails from '../components/details/CoinDetails';
 import AiInfo from '../components/details/AiInfo';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const formatNumber = (number) => {
+  return new Intl.NumberFormat('de-DE', {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(number);
+};
 
 const Details = () => {
-  const { tokenId } = useParams(); // Get tokenId from route params
+  const { tokenId: paramTokenId } = useParams();
+  const tokenId = paramTokenId || localStorage.getItem('selectedTokenId');
   const [coinData, setCoinData] = useState(null);
 
   useEffect(() => {
@@ -47,7 +77,7 @@ const Details = () => {
         <CoinDetails
           tokenId={coinData.id}
           showAiInfo={false}
-          renderContent={(data) => (
+          renderContent={() => (
             <div className='space-y-6'>
               {/* Token Name */}
               <div className='p-4 rounded-lg shadow-xl'>
@@ -88,118 +118,172 @@ const Details = () => {
                 <AiInfo tokenAddress={coinData.contract_address} />
               </div>
 
-              {/* Links */}
+              {/* Current Price */}
               <div className='p-4 rounded-lg shadow-xl'>
-                <h3 className='text-lg font-semibold'>Links:</h3>
-                <ul className='list-disc list-inside'>
-                  {coinData.links?.homepage.map((link, index) => (
-                    <li key={index}>
-                      <a
-                        href={link}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='text-blue-400'
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  )) || <li>No links available</li>}
-                </ul>
+                <h3 className='text-lg font-semibold'>Current Price:</h3>
+                <p>
+                  EUR:{' '}
+                  {formatNumber(coinData.market_data?.current_price?.eur) ||
+                    'N/A'}
+                </p>
+                <p>
+                  USD:{' '}
+                  {formatNumber(coinData.market_data?.current_price?.usd) ||
+                    'N/A'}
+                </p>
+              </div>
+
+              {/* Price Trend Chart (24 Hours) */}
+              <div className='p-4 rounded-lg shadow-xl'>
+                <h3 className='text-lg font-semibold'>
+                  Price Trend (24 Hours):
+                </h3>
+                <Line
+                  data={{
+                    labels: Array.from(
+                      {
+                        length:
+                          coinData.market_data?.sparkline_7d?.price.length || 0,
+                      },
+                      (_, i) => `${i}:00`
+                    ),
+                    datasets: [
+                      {
+                        label: 'Price (USD)',
+                        data: coinData.market_data?.sparkline_7d?.price || [],
+                        fill: false,
+                        borderColor: 'rgba(153,102,255,1)',
+                        tension: 0.1,
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    scales: {
+                      x: {
+                        title: { display: true, text: 'Time (24-hour format)' },
+                      },
+                      y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Price (USD)' },
+                      },
+                    },
+                    plugins: { legend: { display: true, position: 'top' } },
+                  }}
+                />
+              </div>
+
+              {/* Price Trend Chart (30 Days) */}
+              <div className='p-4 rounded-lg shadow-xl'>
+                <h3 className='text-lg font-semibold'>
+                  Price Trend (30 Days):
+                </h3>
+                <Line
+                  data={{
+                    labels: Array.isArray(
+                      coinData.market_data
+                        ?.price_change_percentage_30d_in_currency?.usd
+                    )
+                      ? coinData.market_data?.price_change_percentage_30d_in_currency?.usd.map(
+                          (_, i) => `Day ${i + 1}`
+                        )
+                      : [],
+                    datasets: [
+                      {
+                        label: 'Price (USD)',
+                        data: Array.isArray(
+                          coinData.market_data
+                            ?.price_change_percentage_30d_in_currency?.usd
+                        )
+                          ? coinData.market_data
+                              .price_change_percentage_30d_in_currency.usd
+                          : [],
+                        fill: false,
+                        borderColor: 'rgba(255,159,64,1)',
+                        tension: 0.1,
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    scales: {
+                      x: { title: { display: true, text: 'Date' } },
+                      y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Price (USD)' },
+                      },
+                    },
+                    plugins: { legend: { display: true, position: 'top' } },
+                  }}
+                />
               </div>
 
               {/* Market Cap */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>Market Cap:</h3>
-                <p>EUR: {coinData.market_data?.market_cap?.eur || 'N/A'}</p>
-                <p>USD: {coinData.market_data?.market_cap?.usd || 'N/A'}</p>
+                <p>
+                  EUR:{' '}
+                  {formatNumber(coinData.market_data?.market_cap?.eur) || 'N/A'}
+                </p>
+                <p>
+                  USD:{' '}
+                  {formatNumber(coinData.market_data?.market_cap?.usd) || 'N/A'}
+                </p>
               </div>
 
-              {/* Market Cap Trend */}
+              {/* Market Cap Trend Chart */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>
                   Market Cap Trend (30 Days):
                 </h3>
-                <p>
-                  EUR:{' '}
-                  {coinData.market_data
-                    ?.market_cap_change_percentage_30d_in_currency?.eur ||
-                    'N/A'}
-                  %
-                </p>
-                <p>
-                  USD:{' '}
-                  {coinData.market_data
-                    ?.market_cap_change_percentage_30d_in_currency?.usd ||
-                    'N/A'}
-                  %
-                </p>
+                <Line
+                  data={{
+                    labels: Array.from(
+                      { length: 30 },
+                      (_, i) => `Day ${i + 1}`
+                    ),
+                    datasets: [
+                      {
+                        label: 'Market Cap (USD)',
+                        data: Array.isArray(
+                          coinData.market_data
+                            ?.market_cap_change_percentage_30d_in_currency?.usd
+                        )
+                          ? coinData.market_data
+                              .market_cap_change_percentage_30d_in_currency.usd
+                          : [],
+                        fill: false,
+                        borderColor: 'rgba(75,192,192,1)',
+                        tension: 0.1,
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    plugins: { legend: { display: true, position: 'top' } },
+                  }}
+                />
               </div>
 
               {/* Liquidity */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>Liquidity:</h3>
-                <p>EUR: {coinData.market_data?.total_volume?.eur || 'N/A'}</p>
-                <p>USD: {coinData.market_data?.total_volume?.usd || 'N/A'}</p>
+                <p>
+                  EUR:{' '}
+                  {formatNumber(coinData.market_data?.total_volume?.eur) ||
+                    'N/A'}
+                </p>
+                <p>
+                  USD:{' '}
+                  {formatNumber(coinData.market_data?.total_volume?.usd) ||
+                    'N/A'}
+                </p>
               </div>
 
               {/* Holder Count */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>Holder Count:</h3>
                 <p>{coinData.community_data?.facebook_likes || 'N/A'}</p>
-              </div>
-
-              {/* Trading Volume */}
-              <div className='p-4 rounded-lg shadow-xl'>
-                <h3 className='text-lg font-semibold'>
-                  Trading Volume (24 Hours):
-                </h3>
-                <p>EUR: {coinData.market_data?.total_volume?.eur || 'N/A'}</p>
-                <p>USD: {coinData.market_data?.total_volume?.usd || 'N/A'}</p>
-              </div>
-
-              {/* Current Price */}
-              <div className='p-4 rounded-lg shadow-xl'>
-                <h3 className='text-lg font-semibold'>Current Price:</h3>
-                <p>EUR: {coinData.market_data?.current_price?.eur || 'N/A'}</p>
-                <p>USD: {coinData.market_data?.current_price?.usd || 'N/A'}</p>
-              </div>
-
-              {/* Price Trend */}
-              <div className='p-4 rounded-lg shadow-xl'>
-                <h3 className='text-lg font-semibold'>
-                  Price Trend (24 Hours):
-                </h3>
-                <p>
-                  Change EUR:{' '}
-                  {coinData.market_data?.price_change_percentage_24h_in_currency
-                    ?.eur || 'N/A'}
-                  %
-                </p>
-                <p>
-                  Change USD:{' '}
-                  {coinData.market_data?.price_change_percentage_24h_in_currency
-                    ?.usd || 'N/A'}
-                  %
-                </p>
-              </div>
-
-              {/* Price Trend (30 Days) */}
-              <div className='p-4 rounded-lg shadow-xl'>
-                <h3 className='text-lg font-semibold'>
-                  Price Trend (30 Days):
-                </h3>
-                <p>
-                  Change EUR:{' '}
-                  {coinData.market_data?.price_change_percentage_30d_in_currency
-                    ?.eur || 'N/A'}
-                  %
-                </p>
-                <p>
-                  Change USD:{' '}
-                  {coinData.market_data?.price_change_percentage_30d_in_currency
-                    ?.usd || 'N/A'}
-                  %
-                </p>
               </div>
 
               {/* Social Media Information */}
