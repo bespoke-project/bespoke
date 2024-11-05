@@ -64,7 +64,7 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="swap-on size-6"
+              className="swap-on size-6 text-[#67817d]"
             >
               <path
                 strokeLinecap="round"
@@ -79,7 +79,7 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="swap-off size-6"
+              className="swap-off size-6 text-[#67817d]"
             >
               <path
                 strokeLinecap="round"
@@ -89,7 +89,7 @@ const Navbar = () => {
             </svg>
           </label>
           {isCookieAvailable && userData && (
-            <div className="text-xl font-semibold">
+            <div className="text-xl font-semibold text-[#67817d]">
               Welcome {userData.firstName}
             </div>
           )}
@@ -105,7 +105,7 @@ const Navbar = () => {
           </div>
         )}
         <div className="flex-1 flex justify-end">
-          <ul className="menu menu-horizontal px-1">
+          <ul className="menu menu-horizontal px-1 text-[#67817d]">
             {isCookieAvailable ? (
               <>
                 <li>
@@ -120,7 +120,7 @@ const Navbar = () => {
                 <li>
                   <button
                     onClick={() => deleteCookie("token")}
-                    className="btn btn-sm"
+                    className="btn btn-sm text-[#67817d]"
                   >
                     Logout
                   </button>

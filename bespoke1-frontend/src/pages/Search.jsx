@@ -12,7 +12,7 @@ const Search = () => {
   const { setTokenId } = useContext(TokenContext);
   const { userData, setUserData } = useAuth();
   const [showNotification, setShowNotification] = useState(false);
-  const [currentCoin, setCurrentCoin] = useState(null); // Store the current coin data
+  const [currentCoin, setCurrentCoin] = useState(null);
 
   const fetchSuggestions = useCallback(
     debounce(async (input) => {
@@ -56,7 +56,7 @@ const Search = () => {
   };
 
   const handleAddToFavorites = async () => {
-    if (!currentCoin) return; // Ensure we have the actual data
+    if (!currentCoin) return;
 
     const newFavorite = {
       coinId: currentCoin.id,
@@ -130,68 +130,16 @@ const Search = () => {
             <h2 className="text-2xl font-bold text-center mb-6">{query}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="p-4 rounded-lg shadow-inner overflow-hidden">
-                <h3 className="text-lg font-semibold mb-4">Token Overview</h3>
+                <h3 className="text-lg font-semibold mb-4">Overview:</h3>
                 <CoinDetails
                   tokenId={localStorage.getItem("selectedTokenId")}
-                  renderContent={(data) => {
-                    setCurrentCoin({
-                      id: data.tokenId,
-                      name: data.tokenName,
-                      image: data.image,
-                      price: data.price,
-                    }); // Capture the actual coin data
-
-                    return (
-                      <div>
-                        <div className="flex justify-center mb-4">
-                          <img
-                            src={data.image}
-                            alt={`${data.tokenName} logo`}
-                            className="h-20 w-20 object-cover rounded"
-                          />
-                        </div>
-                        <div className="max-h-32 overflow-y-auto mb-4">
-                          <p>
-                            <strong>Description:</strong>{" "}
-                            {data.tokenDescription}
-                          </p>
-                        </div>
-                        <h4 className="font-semibold mt-4">Social Media</h4>
-                        <ul className="list-disc list-inside">
-                          {data.socialMedia.map((social, index) => (
-                            <li key={index}>
-                              {social.platform}: {social.value}
-                            </li>
-                          ))}
-                        </ul>
-                        <h4 className="font-semibold mt-4">Links</h4>
-                        <ul className="list-disc list-inside">
-                          {data.links.map((link, index) => (
-                            <li key={index}>
-                              <a
-                                href={link.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-blue-400"
-                              >
-                                {link.label}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                        <h4 className="font-semibold mt-4">AI Feedback</h4>
-                        <AiInfo tokenAddress={data.tokenAddress} />
-                      </div>
-                    );
-                  }}
+                  onCoinDataLoad={setCurrentCoin} // Prop to set current coin only when data is loaded
                 />
               </div>
 
               {/* Right panel - Token information */}
               <div className="p-4 rounded-lg shadow-inner">
-                <h3 className="text-lg font-semibold mb-4">
-                  Token Information
-                </h3>
+                <h3 className="text-lg font-semibold mb-4">Details:</h3>
                 <CoinDetails
                   tokenId={localStorage.getItem("selectedTokenId")}
                   showAiInfo={false}
@@ -201,7 +149,8 @@ const Search = () => {
                         <strong>Token Name:</strong> {data.tokenName}
                       </p>
                       <p>
-                        <strong>CA:</strong> {data.tokenAddress}
+                        <strong>CA:</strong>
+                        <span className="break-all">{data.tokenAddress}</span>
                       </p>
                       <p>
                         <strong>Blockchain:</strong> {data.blockchain}

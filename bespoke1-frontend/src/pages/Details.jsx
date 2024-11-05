@@ -1,5 +1,34 @@
+import { Line } from "react-chartjs-2";
 import CoinDetails from "../components/details/CoinDetails";
 import AiInfo from "../components/details/AiInfo";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const formatNumber = (number) => {
+  return new Intl.NumberFormat("de-DE", {
+    style: "decimal",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(number);
+};
 
 const Details = () => {
   const tokenId = localStorage.getItem("selectedTokenId");
@@ -54,7 +83,7 @@ const Details = () => {
                 <img
                   src={data.image}
                   alt={`${data.tokenName} logo`}
-                  className="h-20 w-20 object-cover rounded"
+                  className="h-25 w-25 object-cover rounded"
                 />
               </div>
 
@@ -70,86 +99,181 @@ const Details = () => {
                 <AiInfo tokenAddress={data.tokenAddress} />
               </div>
 
-              {/* Links */}
+              {/* Aktueller Preis */}
               <div className="p-4 rounded-lg shadow-xl">
-                <h3 className="text-lg font-semibold">Links:</h3>
-                <ul className="list-disc list-inside">
-                  {data.links.map((link, index) => (
-                    <li key={index}>
-                      <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-400"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                <h3 className="text-lg font-semibold">Current Price:</h3>
+                <p>
+                  EUR: {data.price?.eur ? formatNumber(data.price.eur) : "N/A"}
+                </p>
+                <p>
+                  USD: {data.price?.usd ? formatNumber(data.price.usd) : "N/A"}
+                </p>
+              </div>
+
+              {/* Price Trend Chart (24 Hours) */}
+              <div className="p-4 rounded-lg shadow-xl">
+                <h3 className="text-lg font-semibold">
+                  Price Trend (24 Hours):
+                </h3>
+                <Line
+                  data={{
+                    labels: Array.from(
+                      { length: data.priceTrend24h?.usd?.length || 0 },
+                      (_, i) => `${String(i).padStart(2, "0")}:00`
+                    ),
+                    datasets: [
+                      {
+                        label: "Price (USD)",
+                        data: data.priceTrend24h?.usd || [],
+                        fill: false,
+                        borderColor: "rgba(153,102,255,1)",
+                        tension: 0.1,
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    scales: {
+                      x: {
+                        title: {
+                          display: true,
+                          text: "Time (24-hour format)",
+                        },
+                      },
+                      y: {
+                        beginAtZero: true,
+                        title: {
+                          display: true,
+                          text: "Price (USD)",
+                        },
+                      },
+                    },
+                    plugins: {
+                      legend: {
+                        display: true,
+                        position: "top",
+                      },
+                    },
+                  }}
+                />
+              </div>
+
+              {/* Price Trend Chart (30 Days) */}
+              <div className="p-4 rounded-lg shadow-xl">
+                <h3 className="text-lg font-semibold">
+                  Price Trend (30 Days):
+                </h3>
+                <Line
+                  data={{
+                    labels: data.priceTrend30d?.dates || [],
+                    datasets: [
+                      {
+                        label: "Price (USD)",
+                        data: data.priceTrend30d?.usd || [],
+                        fill: false,
+                        borderColor: "rgba(255,159,64,1)",
+                        tension: 0.1,
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    scales: {
+                      x: {
+                        title: {
+                          display: true,
+                          text: "Date",
+                        },
+                      },
+                      y: {
+                        beginAtZero: true,
+                        title: {
+                          display: true,
+                          text: "Price (USD)",
+                        },
+                      },
+                    },
+                    plugins: {
+                      legend: {
+                        display: true,
+                        position: "top",
+                      },
+                    },
+                  }}
+                />
               </div>
 
               {/* Market Cap */}
               <div className="p-4 rounded-lg shadow-xl">
                 <h3 className="text-lg font-semibold">Market Cap:</h3>
-                <p>EUR: {data.marketCap?.eur || "N/A"}</p>
-                <p>USD: {data.marketCap?.usd || "N/A"}</p>
+                <p>
+                  EUR:{" "}
+                  {data.marketCap?.eur
+                    ? formatNumber(data.marketCap.eur)
+                    : "N/A"}
+                </p>
+                <p>
+                  USD:{" "}
+                  {data.marketCap?.usd
+                    ? formatNumber(data.marketCap.usd)
+                    : "N/A"}
+                </p>
               </div>
 
-              {/* Market Cap Trend */}
+              {/* Market Cap Trend Chart */}
               <div className="p-4 rounded-lg shadow-xl">
                 <h3 className="text-lg font-semibold">
                   Market Cap Trend (30 Days):
                 </h3>
-                <p>EUR: {data.marketCapTrend?.eur.join(", ") || "N/A"}</p>
-                <p>USD: {data.marketCapTrend?.usd.join(", ") || "N/A"}</p>
+                <Line
+                  data={{
+                    labels: Array.from(
+                      { length: data.marketCapTrend?.usd?.length || 0 },
+                      (_, i) => `Day ${i + 1}`
+                    ),
+                    datasets: [
+                      {
+                        label: "Market Cap (USD)",
+                        data: data.marketCapTrend?.usd || [],
+                        fill: false,
+                        borderColor: "rgba(75,192,192,1)",
+                        tension: 0.1,
+                      },
+                    ],
+                  }}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        display: true,
+                        position: "top",
+                      },
+                    },
+                  }}
+                />
               </div>
 
-              {/* Liquidity */}
+              {/* Aktuelle Liquidität */}
               <div className="p-4 rounded-lg shadow-xl">
-                <h3 className="text-lg font-semibold">Liquidity:</h3>
-                <p>EUR: {data.liquidity?.eur || "N/A"}</p>
-                <p>USD: {data.liquidity?.usd || "N/A"}</p>
+                <h3 className="text-lg font-semibold">Current Liquidity:</h3>
+                <p>
+                  EUR:{" "}
+                  {data.liquidity?.eur
+                    ? formatNumber(data.liquidity.eur)
+                    : "N/A"}
+                </p>
+                <p>
+                  USD:{" "}
+                  {data.liquidity?.usd
+                    ? formatNumber(data.liquidity.usd)
+                    : "N/A"}
+                </p>
               </div>
 
               {/* Holder Count */}
               <div className="p-4 rounded-lg shadow-xl">
                 <h3 className="text-lg font-semibold">Holder Count:</h3>
                 <p>{data.holderCount || "N/A"}</p>
-              </div>
-
-              {/* Trading Volume */}
-              <div className="p-4 rounded-lg shadow-xl">
-                <h3 className="text-lg font-semibold">
-                  Trading Volume (7 Days):
-                </h3>
-                <p>Buys (EUR): {data.volume?.buys?.eur || "N/A"}</p>
-                <p>Buys (USD): {data.volume?.buys?.usd || "N/A"}</p>
-                <p>Sells (EUR): {data.volume?.sells?.eur || "N/A"}</p>
-                <p>Sells (USD): {data.volume?.sells?.usd || "N/A"}</p>
-              </div>
-
-              {/* Current Price */}
-              <div className="p-4 rounded-lg shadow-xl">
-                <h3 className="text-lg font-semibold">Current Price:</h3>
-                <p>EUR: {data.price?.eur || "N/A"}</p>
-                <p>USD: {data.price?.usd || "N/A"}</p>
-              </div>
-
-              {/* Price Trend */}
-              <div className="p-4 rounded-lg shadow-xl">
-                <h3 className="text-lg font-semibold">
-                  Price Trend (24 Hours):
-                </h3>
-                <p>EUR: {data.priceTrend24h?.eur.join(", ") || "N/A"}</p>
-                <p>USD: {data.priceTrend24h?.usd.join(", ") || "N/A"}</p>
-              </div>
-              <div className="p-4 rounded-lg shadow-xl">
-                <h3 className="text-lg font-semibold">
-                  Price Trend (30 Days):
-                </h3>
-                <p>EUR: {data.priceTrend30d?.eur.join(", ") || "N/A"}</p>
-                <p>USD: {data.priceTrend30d?.usd.join(", ") || "N/A"}</p>
               </div>
 
               {/* Social Media Information */}
