@@ -4,10 +4,11 @@ import axios from "axios";
 import { ClipLoader } from "react-spinners";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const Form = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { userData, setUserData } = useAuth();
   const [form, setForm] = useState({
     name: userData.firstName || "",
@@ -20,7 +21,7 @@ const Form = () => {
   });
   const [file, setFile] = useState(null);
   const [alertVisible, setAlertVisible] = useState(false);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -88,7 +89,7 @@ const Form = () => {
       setLoading(false);
     }
   };
-
+  // here the handleDelete function is added
   const handleDelete = async () => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -98,10 +99,12 @@ const Form = () => {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Delete",
-      backdrop: true, // This line will block the background content when the alert is visible
+      backdrop: true,
     });
 
     if (result.isConfirmed) {
+      navigate("/");
+
       try {
         await axios.delete(`${import.meta.env.VITE_API_URL}/auth/delete`, {
           headers: {
@@ -110,14 +113,9 @@ const Form = () => {
           withCredentials: true,
         });
 
-        setUserData(null); // Clear user data after deletion
+        setUserData(null);
 
-        Swal.fire("Deleted!", "Your account has been deleted.", "success").then(
-          () => {
-            // Redirect to the login page using the absolute URL
-            window.location.href = "http://localhost:5173/"; // Redirect to the login page directly
-          }
-        );
+        Swal.fire("Deleted!", "Your account has been deleted.", "success");
       } catch (error) {
         console.error("Error deleting account:", error);
         Swal.fire(
