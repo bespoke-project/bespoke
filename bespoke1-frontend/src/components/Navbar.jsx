@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Importiere useLocation für die aktuelle Route
-import { useAuth } from "../context/authProvider"; // Importiere die Auth-Hook
+import { useAuth } from "../context/AuthProvider"; // Importiere die Auth-Hook
 
 const Navbar = () => {
   const [theme, setTheme] = useState(
@@ -89,7 +89,7 @@ const Navbar = () => {
             </svg>
           </label>
           {isCookieAvailable && userData && (
-            <div className="text-xl font-semibold">
+            <div className="text-xl font-semibold text-[#67817d]">
               Welcome {userData.firstName}
             </div>
           )}
@@ -109,18 +109,33 @@ const Navbar = () => {
             {isCookieAvailable ? (
               <>
                 <li>
-                  <Link to="/home">Home</Link>
+                  <Link
+                    to="/home"
+                    className=" transition transform duration-200 text-[#67817d] hover:bg-[#b0c4c0] hover:text-white hover:shadow-md hover:scale-95 py-2 px-4 rounded"
+                  >
+                    Home
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/Profile">Profile</Link>
+                  <Link
+                    to="/Profile"
+                    className=" transition transform duration-200 text-[#67817d] hover:bg-[#b0c4c0] hover:text-white hover:shadow-md hover:scale-95 py-2 px-4 rounded"
+                  >
+                    Profile
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/search">Search</Link>
+                  <Link
+                    to="/search"
+                    className="transition transform duration-200 text-[#67817d] hover:bg-[#b0c4c0] hover:text-white hover:shadow-md hover:scale-95 py-2 px-4 rounded"
+                  >
+                    Search
+                  </Link>
                 </li>
                 <li>
                   <button
                     onClick={() => deleteCookie("token")}
-                    className="btn btn-sm"
+                    className=" btn btn-sm transition transform duration-200 text-[#67817d] hover:bg-[#b0c4c0] hover:text-white hover:shadow-md hover:scale-95 py-2 px-4 rounded"
                   >
                     Logout
                   </button>
