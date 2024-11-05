@@ -3,7 +3,8 @@ import Swal from "sweetalert2";
 import SignUpModal from "./SignUpModal";
 import { useAuth } from "../../context/AuthProvider";
 import axios from "axios";
-// import logo from "/Users/siamak/Desktop/FinalProjekt/bespoke/bespoke1-frontend/src/components/graphics/Bespoke!Logo.webp"; // Importiere das Logo
+import { useNavigate } from "react-router-dom";
+
 
 const LogForm = () => {
   const [showModal, setShowModal] = useState(false);
@@ -11,6 +12,7 @@ const LogForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { checkUser } = useAuth();
+  const navigate = useNavigate(); // Initialisiere useNavigate
 
   const handleModalOpen = () => {
     setShowModal(true);
@@ -45,6 +47,12 @@ const LogForm = () => {
           Swal.fire({
             icon: "success",
             title: "Login Successful",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          }).then(() => {
+            // Navigiere zu /home nach erfolgreichem Login
+            navigate("/home");
           });
         }
       } catch (error) {
@@ -67,11 +75,18 @@ const LogForm = () => {
 
   return (
     <>
-      <div className="card bg-base-100 w-96 shadow-2xl p-5">
+      <div className="card bg-base-100 w-96 shadow-2xl p-5 ">
         {/* Ersetze den Text durch das Logo
         <div className="flex justify-center pb-6">
           <img src={logo} alt="Bespoke Logo" className="h-20 w-auto" />
         </div> */}
+                <div className="flex-none">
+          <img
+            src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
+            alt="Logo"
+            className="h-20 w-auto mx-auto m-10"
+          />
+        </div>
         <h2 className="text-xl text-center font-semibold">Login</h2>
         <form onSubmit={handleLoginSubmit}>
           <div className="form-control">

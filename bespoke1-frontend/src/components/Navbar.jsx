@@ -1,13 +1,41 @@
-//import logo direct from public folder
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom"; // Importiere useLocation für die aktuelle Route
 import { useAuth } from "../context/AuthProvider"; // Importiere die Auth-Hook
 
 const Navbar = () => {
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "garden"
   );
-  const { userData } = useAuth(); //
+  const { userData } = useAuth();
+  const [isCookieAvailable, setIsCookieAvailable] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation(); // Verwende useLocation, um die aktuelle Route zu überprüfen
+
+  // Funktion zum Auslesen des Tokens aus den Cookies
+  const getCookieValue = (name) => {
+    const match = document.cookie.match(
+      new RegExp("(^| )" + name + "=([^;]+)")
+    );
+    return match ? decodeURIComponent(match[2]) : null;
+  };
+
+  // Funktion zum Löschen eines Cookies
+  const deleteCookie = (name) => {
+    document.cookie = `${name}=; Max-Age=0; path=/; domain=${window.location.hostname}`;
+    setIsCookieAvailable(false);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    const token = getCookieValue("token");
+
+    if (token) {
+      setIsCookieAvailable(true);
+    } else {
+      setIsCookieAvailable(false);
+      navigate("/");
+    }
+  }, [userData]);
 
   const handleChange = (e) => {
     setTheme(e.target.checked ? "dark" : "garden");
@@ -21,8 +49,9 @@ const Navbar = () => {
   return (
     <>
       <div className="navbar bg-base-300">
-        <div className="flex-1">
-          <label className="swap swap-rotate">
+        {/* Links - Theme-Toggle und optionale Begrüßung */}
+        <div className="flex-1 flex items-center">
+          <label className="swap swap-rotate mr-4">
             <input
               type="checkbox"
               onChange={handleChange}
@@ -59,38 +88,48 @@ const Navbar = () => {
               />
             </svg>
           </label>
+          {isCookieAvailable && userData && (
+            <div className="text-xl font-semibold">
+              Welcome, {userData.username}
+            </div>
+          )}
         </div>
-        <div className="flex-none">
-          <img
-            src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
-            alt="Logo"
-            className="h-20 w-auto mx-auto"
-          />
-        </div>
-        <div className="flex-1 flex justify-end">
-          {/* Rechts ausgerichteter Begrüßungstext */}
-          <div className="flex-1 flex justify-end items-center">
-            {userData && (
-              <div className="text-xl font-semibold mr-4">
-                Welcome, {userData.firstName}
-              </div>
-            )}
-
-            <ul className="menu menu-horizontal px-1">
-              <li>
-                <Link to="/home">Home</Link>
-              </li>
-              <li>
-                <Link to="/Profile">Profile</Link>
-              </li>
-              <li>
-                <Link to="/search">Search</Link>
-              </li>
-              <li>
-                <Link to="/">Logout</Link>
-              </li>
-            </ul>
+        {/* Logo nur anzeigen, wenn die aktuelle Route nicht "/" ist */}
+        {location.pathname !== "/" && (
+          <div className="flex-none">
+            <img
+              src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
+              alt="Logo"
+              className="h-20 w-auto mx-auto"
+            />
           </div>
+        )}
+        <div className="flex-1 flex justify-end">
+          <ul className="menu menu-horizontal px-1">
+            {isCookieAvailable ? (
+              <>
+                <li>
+                  <Link to="/home">Home</Link>
+                </li>
+                <li>
+                  <Link to="/Profile">Profile</Link>
+                </li>
+                <li>
+                  <Link to="/search">Search</Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => deleteCookie("token")}
+                    className="btn btn-sm"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
+            ) : (
+              <li></li>
+            )}
+          </ul>
         </div>
       </div>
     </>
