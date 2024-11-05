@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom"; // Importiere useLocation für die aktuelle Route
-import { useAuth } from "../context/AuthProvider"; // Importiere die Auth-Hook
+import { useAuth } from "../context/authProvider"; // Importiere die Auth-Hook
 
 const Navbar = () => {
   const [theme, setTheme] = useState(
@@ -90,7 +90,7 @@ const Navbar = () => {
           </label>
           {isCookieAvailable && userData && (
             <div className="text-xl font-semibold">
-              Welcome, {userData.username}
+              Welcome {userData.firstName}
             </div>
           )}
         </div>
