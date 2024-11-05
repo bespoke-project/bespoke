@@ -9,8 +9,11 @@ const DetailHome = ({ coin }) => {
     if (coin && coin.coinName) {
       const fetchCoinDetails = async () => {
         try {
+          const formattedCoinName = coin.coinName
+            .toLowerCase()
+            .replace(/\s+/g, '-');
           const response = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${coin.coinName.toLowerCase()}`
+            `https://api.coingecko.com/api/v3/coins/${formattedCoinName}`
           );
           const data = await response.json();
           setCoinDetails(data);
@@ -25,7 +28,10 @@ const DetailHome = ({ coin }) => {
 
   const handleMoreClick = () => {
     if (coin && coin.coinName) {
-      navigate(`/details/${coin.coinName.toLowerCase()}`);
+      const formattedCoinName = coin.coinName
+        .toLowerCase()
+        .replace(/\s+/g, '-');
+      navigate(`/details/${formattedCoinName}`);
     }
   };
 
