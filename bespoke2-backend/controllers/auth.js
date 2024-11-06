@@ -53,16 +53,19 @@ export const signOut = asyncHandler(async (req, res, next) => {
 
 // UPDATE USER INFO
 export const updateUser = asyncHandler(async (req, res, next) => {
-  const { firstName, lastName, username, image, email, favorites } = req.body;
+  const { firstName, lastName, username, email, favorites } = req.body;
 
-  // Build the update object conditionally
   const updateData = {};
+
   if (firstName) updateData.firstName = firstName;
   if (lastName) updateData.lastName = lastName;
   if (username) updateData.username = username;
   if (email) updateData.email = email;
-  if (image) updateData.image = image;
   if (favorites) updateData.favorites = favorites;
+
+  if (req.file) {
+    updateData.image = req.file.path;
+  }
 
   try {
     const [updatedCount, updatedUsers] = await User.update(updateData, {
@@ -80,6 +83,7 @@ export const updateUser = asyncHandler(async (req, res, next) => {
     next(error);
   }
 });
+
 // Verify User
 export const getUser = asyncHandler(async (req, res, next) => {
   const user = await User.findByPk(req.uid);
@@ -93,5 +97,6 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
   if (!user) throw new ErrorResponse('User not found', 404);
 
   await user.destroy();
+  res.clearCookie('token');
   res.send({ status: 'User deleted' });
 });

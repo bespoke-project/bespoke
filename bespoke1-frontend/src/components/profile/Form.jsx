@@ -1,8 +1,14 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useAuth } from '../../context/AuthProvider';
+import axios from 'axios';
+import { ClipLoader } from 'react-spinners';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import Swal from 'sweetalert2';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Form = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { userData, setUserData } = useAuth();
   const [form, setForm] = useState({
     name: userData.firstName || '',
@@ -13,7 +19,9 @@ const Form = () => {
     confirmPassword: '',
     image: userData.image || '',
   });
+  const [file, setFile] = useState(null);
   const [alertVisible, setAlertVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -27,10 +35,15 @@ const Form = () => {
       confirmPassword: '',
       image: userData.image || '',
     });
+    setFile(null);
   };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
@@ -40,20 +53,27 @@ const Form = () => {
       return;
     }
 
-    // Only send non-empty fields
-    const updatedData = {};
-    if (form.name) updatedData.firstName = form.name;
-    if (form.lastName) updatedData.lastName = form.lastName;
-    if (form.username) updatedData.username = form.username;
-    if (form.email) updatedData.email = form.email;
-    if (form.image) updatedData.image = form.image;
-    if (form.password) updatedData.password = form.password;
-
     try {
+      setLoading(true);
+      const formData = new FormData();
+
+      if (form.name) formData.append('firstName', form.name);
+      if (form.lastName) formData.append('lastName', form.lastName);
+      if (form.username) formData.append('username', form.username);
+      if (form.email) formData.append('email', form.email);
+      if (form.password) formData.append('password', form.password);
+
+      if (file) formData.append('image', file);
+
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/auth/update`,
-        updatedData,
-        { withCredentials: true }
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: true,
+        }
       );
 
       setUserData(response.data.user);
@@ -65,6 +85,45 @@ const Form = () => {
       }, 3000);
     } catch (error) {
       console.error('Error updating profile:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // here the handleDelete function is added
+  const handleDelete = async () => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'This action cannot be undone!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Delete',
+      backdrop: true,
+    });
+
+    if (result.isConfirmed) {
+      navigate('/');
+
+      try {
+        await axios.delete(`${import.meta.env.VITE_API_URL}/auth/delete`, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        });
+
+        setUserData(null);
+
+        Swal.fire('Deleted!', 'Your account has been deleted.', 'success');
+      } catch (error) {
+        console.error('Error deleting account:', error);
+        Swal.fire(
+          'Error!',
+          'There was an error deleting your account.',
+          'error'
+        );
+      }
     }
   };
 
@@ -141,7 +200,7 @@ const Form = () => {
             onClick={() => setShowPassword(!showPassword)}
             className='absolute right-2 top-9'
           >
-            {showPassword ? 'Hide' : 'Show'}
+            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
           </button>
         </div>
         {/* Confirm Password Field */}
@@ -161,31 +220,53 @@ const Form = () => {
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             className='absolute right-2 top-9'
           >
-            {showConfirmPassword ? 'Hide' : 'Show'}
+            {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
           </button>
         </div>
-        {/* Photo Field */}
+        {/* File Upload Field */}
         <div className='flex flex-col'>
           <label className='text-lg'>Photo</label>
           <input
             className='border border-gray-300 p-2 rounded-md w-full'
             name='image'
-            placeholder='Enter image URL (Optional)'
-            onChange={handleChange}
-            type='text'
-            value={form.image}
+            type='file'
+            accept='image/*'
+            onChange={handleFileChange}
           />
+          {/* Preview the selected image */}
+          {file && (
+            <img
+              src={URL.createObjectURL(file)}
+              alt='Preview'
+              className='mt-4 w-24 h-24 object-cover rounded-full'
+            />
+          )}
         </div>
         {/* Submit Button */}
-        <div className='flex justify-center'>
+        <div className='flex justify-center items-center'>
           <button
             type='submit'
             className='btn btn-success border-gray-300 p-2 rounded-md w-full sm:w-auto'
+            disabled={loading}
           >
-            Update
+            {loading ? <ClipLoader size={20} color='#fff' /> : 'Update'}
           </button>
         </div>
       </form>
+      {loading && (
+        <p className='text-center mt-4 text-green-600'>
+          Updating profile, please wait...
+        </p>
+      )}
+      {/* Delete Button */}
+      <div className='flex justify-center items-center mt-6'>
+        <button
+          onClick={handleDelete}
+          className='btn btn-danger border-gray-300 p-2 rounded-md w-full sm:w-auto'
+        >
+          Delete Account
+        </button>
+      </div>
     </div>
   );
 };

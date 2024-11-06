@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const DetailHome = ({ coin }) => {
@@ -9,8 +9,13 @@ const DetailHome = ({ coin }) => {
     if (coin && coin.coinName) {
       const fetchCoinDetails = async () => {
         try {
+          const formattedCoinName = coin.coinName
+            .toLowerCase()
+            .replace(/\s+/g, '-');
+          console.log('Fetching details for:', formattedCoinName);
+
           const response = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${coin.coinName.toLowerCase()}`
+            `https://api.coingecko.com/api/v3/coins/${formattedCoinName}`
           );
           const data = await response.json();
           setCoinDetails(data);
@@ -25,7 +30,10 @@ const DetailHome = ({ coin }) => {
 
   const handleMoreClick = () => {
     if (coin && coin.coinName) {
-      navigate(`/details/${coin.coinName.toLowerCase()}`);
+      const formattedCoinName = coin.coinName
+        .toLowerCase()
+        .replace(/\s+/g, '-');
+      navigate(`/details/${formattedCoinName}`);
     }
   };
 
@@ -52,7 +60,7 @@ const DetailHome = ({ coin }) => {
           />
 
           {coinDetails ? (
-            <p className='text-center mb-4'>
+            <p className='mb-4'>
               {coinDetails.description?.en || 'No description available.'}
             </p>
           ) : (

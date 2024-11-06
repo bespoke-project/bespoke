@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthProvider';
 
@@ -7,6 +7,8 @@ const TokenHome = ({ onSelectCoin }) => {
   const { userData } = useAuth();
 
   useEffect(() => {
+    console.log('Favorites in TokenHome:', userData.favorites); // Verify favorites here
+
     axios
       .get('https://api.coingecko.com/api/v3/coins/markets', {
         params: {
@@ -26,24 +28,23 @@ const TokenHome = ({ onSelectCoin }) => {
       .catch((error) => {
         console.error('Error fetching coin data:', error);
       });
-  }, []);
+  }, [userData.favorites]); // Reload favorites when they update
 
   return (
     <div className='mt-10'>
       <div className='card w-full md:w-96 shadow-2xl mx-auto'>
         <h1 className='text-center pt-10 font-extrabold text-xl'>Your Coin</h1>
 
-        {userData.favorites &&
-          userData.favorites.map((favorite, index) => (
-            <div key={index} className='p-4 md:p-10'>
-              <button
-                className='btn btn-outline w-full md:w-72'
-                onClick={() => onSelectCoin(favorite)}
-              >
-                {favorite.coinName}
-              </button>
-            </div>
-          ))}
+        {userData.favorites?.map((favorite, index) => (
+          <div key={index} className='p-4 md:p-10'>
+            <button
+              className='btn btn-outline w-full md:w-72'
+              onClick={() => onSelectCoin(favorite)}
+            >
+              {favorite.coinName || 'Unknown'}
+            </button>
+          </div>
+        ))}
 
         <div className='mt-10'>
           <h2 className='text-center font-bold text-lg'>Your Suggestion</h2>
