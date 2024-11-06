@@ -97,5 +97,6 @@ export const deleteUser = asyncHandler(async (req, res, next) => {
   if (!user) throw new ErrorResponse('User not found', 404);
 
   await user.destroy();
+  res.clearCookie('token');
   res.send({ status: 'User deleted' });
 });

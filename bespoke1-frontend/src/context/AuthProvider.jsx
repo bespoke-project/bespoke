@@ -10,8 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
 
-  // console.log(userData);
-
   const checkUser = async () => {
     try {
       const response = await axios.get(
@@ -24,17 +22,15 @@ export const AuthProvider = ({ children }) => {
       if (response.data && response.data.id) {
         setIsLoggedIn(true);
         setUserData(response.data);
-        return response.data;
+        console.log('User data with favorites:', response.data);
       } else {
         setIsLoggedIn(false);
         setUserData({});
-        return null;
       }
     } catch (error) {
+      console.error('Error retrieving user data:', error);
       setIsLoggedIn(false);
       setUserData({});
-      console.error(error);
-      return null;
     }
   };
 

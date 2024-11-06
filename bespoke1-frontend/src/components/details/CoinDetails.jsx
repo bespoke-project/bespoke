@@ -63,7 +63,9 @@ const CoinDetails = ({
           // Fetch token address from "detail_platforms"
           tokenAddress:
             result.detail_platforms?.ethereum?.contract_address || 'N/A',
-          blockchain: result.asset_platform_id || 'N/A',
+          blockchain:
+            result.asset_platform_id ||
+            'This coin is not based on a different Blockchain.',
           image: result.image?.large || null,
           tokenDescription:
             result.description?.en || 'No description available',

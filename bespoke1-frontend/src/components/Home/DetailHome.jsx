@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const DetailHome = ({ coin }) => {
@@ -12,6 +12,8 @@ const DetailHome = ({ coin }) => {
           const formattedCoinName = coin.coinName
             .toLowerCase()
             .replace(/\s+/g, '-');
+          console.log('Fetching details for:', formattedCoinName);
+
           const response = await fetch(
             `https://api.coingecko.com/api/v3/coins/${formattedCoinName}`
           );

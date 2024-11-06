@@ -88,8 +88,10 @@ const Navbar = () => {
             </svg>
           </label>
           {isCookieAvailable && userData && (
-            <div className='text-xl font-semibold text-[#67817d]'>
-              Welcome {userData.firstName}
+            <div className='flex'>
+              <h2 className='xs:text-xs text-lg font-semibold text-[#67817d] '>
+                Welcome {userData.firstName}
+              </h2>
             </div>
           )}
         </div>
@@ -134,6 +136,7 @@ const Navbar = () => {
                     Search
                   </Link>
                 </li>
+
                 <li>
                   <button
                     onClick={() => deleteCookie('token')}
@@ -148,6 +151,13 @@ const Navbar = () => {
             )}
           </ul>
         </div>
+        <Link to='Profile'>
+          <img
+            className='w-12 h-12 rounded-full ml-4 hover:opacity-50'
+            alt='profileImage'
+            src={userData.image}
+          />
+        </Link>
       </div>
     </>
   );
