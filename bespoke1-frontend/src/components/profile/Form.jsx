@@ -243,10 +243,11 @@ const Form = () => {
           )}
         </div>
         {/* Submit Button */}
+
         <div className='flex justify-center items-center'>
           <button
             type='submit'
-            className='btn btn-success border-gray-300 p-2 rounded-md w-full sm:w-auto'
+            className='btn btn-success px-11 rounded-md w-full sm:w-auto text-white'
             disabled={loading}
           >
             {loading ? <ClipLoader size={20} color='#fff' /> : 'Update'}
@@ -262,7 +263,7 @@ const Form = () => {
       <div className='flex justify-center items-center mt-6'>
         <button
           onClick={handleDelete}
-          className='btn btn-danger border-gray-300 p-2 rounded-md w-full sm:w-auto'
+          className='btn btn-danger bg-red-500  text-white p-4 rounded-md w-full sm:w-auto'
         >
           Delete Account
         </button>
