@@ -12,6 +12,16 @@
     type="text/css"
     /> -->
     <title>Projektdoku</title>
+    <style>
+        .flexcontainer1 {
+            display: flex;       
+            
+        }
+
+        .flexbox1 {
+            flex: 1;                /* Teilt den Platz gleichmäßig auf */
+        }
+    </style>
 </head>
 <body >
     <main class="prose lg:prose-xl p-4">
@@ -23,30 +33,41 @@
         
         <h3>APIs</h3>
 
-        <ul><p>coingecko</p>
-            <li><a href="https://api.coingecko.com/api/v3/coins/list">https://api.coingecko.com/api/v3/coins/list</a></li>
-
-            <li><a href="https://api.coingecko.com/api/v3/coins/neiro-on-eth">https://api.coingecko.com/api/v3/coins/neiro-on-eth</a></li>
-            <li><a href="https://api.coingecko.com/api/v3/coins/bitcoin">https://api.coingecko.com/api/v3/coins/bitcoin</a></li>
-            <li><a href="https://api.coingecko.com/api/v3/coins/shiba-inu">https://api.coingecko.com/api/v3/coins/shiba-inu</a></li>
-            <li><a href="https://api.coingecko.com/api/v3/coins/solana">https://api.coingecko.com/api/v3/coins/solana</a></li>
-            <li><a href="https://api.coingecko.com/api/v3/coins/xrp20">https://api.coingecko.com/api/v3/coins/xrp20</a></li>
-            <li><a href="https://api.coingecko.com/api/v3/coins/dogecoin">https://api.coingecko.com/api/v3/coins/dogecoin</a></li>
-            <li><a href="https://api.coingecko.com/api/v3/coins/algorand">https://api.coingecko.com/api/v3/coins/algorand</a></li>
-            <li><a href="https://api.coingecko.com/api/v3/coins/apecoin">https://api.coingecko.com/api/v3/coins/apecoin</a></li>
-            <li><a href="https://api.coingecko.com/api/v3/coins/aptos">https://api.coingecko.com/api/v3/coins/aptos</a></li>
-
-
-        </ul>
-
-        <ul><p>lokal: Asset-Details</p>
-            <li><a href="http://localhost:8202/tokens-t1/bitcoin">http://localhost:8202/tokens-t1/bitcoin</a></li>
-            <li><a href="http://localhost:8202/tokens-t1/neiro-on-eth">http://localhost:8202/tokens-t1/neiro-on-eth</a></li>
-        </ul>
-        <ul><p>lokal: Asset-Marktwert (30 Tage)</p>
-            <li><a href="http://localhost:8202/tokens-t2/bitcoin">http://localhost:8202/tokens-t2/bitcoin</a></li>
-            <li><a href="http://localhost:8202/tokens-t2/neiro-on-eth">http://localhost:8202/tokens-t2/neiro-on-eth</a></li>
-        </ul>
+        <div class="flexcontainer1">
+            <div id="externeAPI" class="flexbox1">
+                <ul><p>coingecko</p>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/list">https://api.coingecko.com/api/v3/coins/list</a></li>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/neiro-on-eth">https://api.coingecko.com/api/v3/coins/neiro-on-eth</a></li>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/bitcoin">https://api.coingecko.com/api/v3/coins/bitcoin</a></li>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/shiba-inu">https://api.coingecko.com/api/v3/coins/shiba-inu</a></li>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/solana">https://api.coingecko.com/api/v3/coins/solana</a></li>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/xrp20">https://api.coingecko.com/api/v3/coins/xrp20</a></li>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/dogecoin">https://api.coingecko.com/api/v3/coins/dogecoin</a></li>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/algorand">https://api.coingecko.com/api/v3/coins/algorand</a></li>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/apecoin">https://api.coingecko.com/api/v3/coins/apecoin</a></li>
+                    <li><a href="https://api.coingecko.com/api/v3/coins/aptos">https://api.coingecko.com/api/v3/coins/aptos</a></li>
+                </ul>
+            </div>
+            <div id="lokaleAPI" class="flexbox1">
+                <ul><p>lokal: Asset-Liste</p>
+                    <li><a href="http://localhost:8202/tokens-t1/">http://localhost:8202/tokens-t1/</a></li>
+                </ul>
+                <ul><p>lokal: Asset-Details</p>
+                    <li><a href="http://localhost:8202/tokens-t1/bitcoin">http://localhost:8202/tokens-t1/bitcoin</a></li>
+                    <li><a href="http://localhost:8202/tokens-t1/neiro-on-eth">http://localhost:8202/tokens-t1/neiro-on-eth</a></li>
+                </ul>
+                <ul><p>lokal: <strong>Asset-Marktwert (30 Tage)</strong></p>
+                    <li><a href="http://localhost:8202/tokens-t2/bitcoin">http://localhost:8202/tokens-t2/bitcoin</a></li>
+                    <li><a href="http://localhost:8202/tokens-t2/neiro-on-eth">http://localhost:8202/tokens-t2/neiro-on-eth</a></li>
+                </ul>
+                <ul>
+                    <p>Asset-Details (Combi API A und B)</p>
+                    <li><a href="http://localhost:8202/tokens-combo-t1/bitcoin">http://localhost:8202/tokens-combo-t1/bitcoin</a></li>
+                    <li><a href="http://localhost:8202/tokens-combo-t1/neiro-on-eth">http://localhost:8202/tokens-combo-t1/neiro-on-eth</a></li>
+                </ul>
+            </div>
+            
+        </div>
 
 
         <h3>Graph</h3>
