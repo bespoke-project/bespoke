@@ -1,64 +1,81 @@
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const DetailHome = () => {
+const DetailHome = ({ coin }) => {
   const navigate = useNavigate();
+  const [coinDetails, setCoinDetails] = useState(null);
+
+  useEffect(() => {
+    if (coin && coin.coinName) {
+      const fetchCoinDetails = async () => {
+        try {
+          const formattedCoinName = coin.coinName
+            .toLowerCase()
+            .replace(/\s+/g, '-');
+          const response = await fetch(
+            `https://api.coingecko.com/api/v3/coins/${formattedCoinName}`
+          );
+          const data = await response.json();
+          setCoinDetails(data);
+        } catch (error) {
+          console.error('Error fetching coin details:', error);
+        }
+      };
+
+      fetchCoinDetails();
+    }
+  }, [coin]);
+
   const handleMoreClick = () => {
-    navigate("/details");
+    if (coin && coin.coinName) {
+      const formattedCoinName = coin.coinName
+        .toLowerCase()
+        .replace(/\s+/g, '-');
+      navigate(`/details/${formattedCoinName}`);
+    }
   };
 
+  if (!coin) {
+    return (
+      <div className='mt-10'>
+        <p className='text-center'>Select a coin to see its details.</p>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <div className="mt-10">
-        <div className="card w-full md:w-11/12 shadow-2xl mx-auto md:m-12">
-          <h1 className="text-center pt-10 font-extrabold text-xl">Details</h1>
+    <div className='mt-10'>
+      <div className='card w-full md:w-11/12 shadow-2xl mx-auto md:m-12'>
+        <h1 className='text-center pt-10 font-extrabold text-xl'>
+          {coin.coinName} Details
+        </h1>
 
-          <div className="p-4 md:p-10 flex">
-            <p className="text-center">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
-              ullam, et aliquam recusandae neque nemo, tenetur earum sunt
-              deserunt veritatis explicabo. Optio voluptatibus accusantium,
-              minima libero doloremque officiis aliquam quisquam praesentium
-              error voluptatem harum vero esse dolorum corrupti officia eum
-              explicabo eaque expedita mollitia tempore soluta quo dicta!
-              Similique sapiente excepturi consequuntur fugiat dolorum commodi
-              sint, ut illo exercitationem aspernatur, quam molestiae? Harum
-              quis tenetur, minus modi quod rem ipsam laboriosam reprehenderit
-              ipsum quam, quo fugit, iure asperiores! Natus et placeat adipisci
-              nesciunt! Error, facere illum dolores tenetur maxime officia
-              magnam deleniti nobis nulla veniam porro totam, amet consectetur
-              inventore cupiditate obcaecati fugit eum ut dolorum aut unde
-              consequuntur quo laboriosam adipisci. Laudantium id voluptatem
-              corrupti nihil quidem maiores tenetur veritatis ipsam ab
-              laboriosam fuga in excepturi aut, quasi ratione minima aspernatur,
-              dolor incidunt! Iure blanditiis molestias accusantium voluptates
-              nobis, similique impedit asperiores quaerat molestiae id ipsum
-              corrupti iusto atque quis quae accusamus repellat eum rerum alias
-              beatae ullam architecto vel. Alias, atque unde iusto sapiente
-              repudiandae voluptatum quis in et recusandae ad? Veniam ad,
-              incidunt vitae porro aspernatur similique, et non nemo voluptate
-              laboriosam tempora provident repellendus quisquam quia animi
-              sapiente ipsam maiores natus? Doloremque suscipit consequuntur
-              deleniti. Ab dolores voluptas recusandae eveniet cupiditate
-              voluptate ut laboriosam reiciendis, eligendi minima provident eos
-              vero tempora sunt quae quidem maiores quam. Quo corrupti sint,
-              repellendus debitis similique atque nostrum voluptates expedita
-              asperiores corporis ullam veritatis consequuntur culpa incidunt
-              est, eveniet dolorem vitae ex quaerat, modi velit quidem facere
-              adipisci. Pariatur, adipisci?
+        <div className='p-4 md:p-10 flex flex-col items-center'>
+          <img
+            src={coin.image}
+            alt={`${coin.coinName} logo`}
+            className='h-20 w-20 object-cover rounded mb-4'
+          />
+
+          {coinDetails ? (
+            <p className='mb-4'>
+              {coinDetails.description?.en || 'No description available.'}
             </p>
-          </div>
+          ) : (
+            <p className='text-center mb-4'>Loading description...</p>
+          )}
+        </div>
 
-          <div className="p-4 md:p-10">
-            <button
-              className="btn btn-outline w-full md:w-72"
-              onClick={handleMoreClick}
-            >
-              More
-            </button>
-          </div>
+        <div className='p-4 md:p-10'>
+          <button
+            className='btn btn-outline w-full md:w-72'
+            onClick={handleMoreClick}
+          >
+            More
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

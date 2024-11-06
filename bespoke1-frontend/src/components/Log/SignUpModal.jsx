@@ -47,10 +47,19 @@ const SignUpModal = ({ onClose }) => {
         });
       }
     } catch (error) {
+      let errorMessage = "An unknown error occurred. Please try again.";
+
+      if (error.response?.data) {
+        const preMatch = error.response.data.match(/<pre>(.*?)<\/pre>/);
+        if (preMatch && preMatch[1]) {
+          errorMessage = preMatch[1].split("<br>")[0].trim();
+        }
+      }
+
       Swal.fire({
         icon: "error",
         title: "Registration Failed",
-        text: "An error occurred during registration. Please try again.",
+        text: errorMessage,
       });
     }
   };

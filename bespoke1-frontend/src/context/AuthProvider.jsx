@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
+import { createContext, useContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const AuthContext = createContext();
 
@@ -9,6 +9,8 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
+
+  // console.log(userData);
 
   const checkUser = async () => {
     try {
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const token = Cookies.get("token");
+    const token = Cookies.get('token');
     if (token) {
       checkUser();
     }
