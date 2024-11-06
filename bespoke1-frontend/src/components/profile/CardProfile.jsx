@@ -1,5 +1,4 @@
 import { IoMail, IoPerson } from 'react-icons/io5';
-// import { PiCoinVerticalDuotone } from "react-icons/pi";
 import { useAuth } from '../../context/AuthProvider';
 
 const CardProfile = () => {
@@ -7,12 +6,10 @@ const CardProfile = () => {
 
   const handleDelete = async (coinId) => {
     try {
-      // Create a new favorites array excluding the deleted coin
       const updatedFavorites = userData.favorites.filter(
         (coin) => coin.coinId !== coinId
       );
 
-      // Send a PUT request to update the favorites in the backend
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/auth/update`,
         {
@@ -20,7 +17,7 @@ const CardProfile = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          credentials: 'include', // Include credentials if necessary
+          credentials: 'include',
           body: JSON.stringify({ favorites: updatedFavorites }),
         }
       );
@@ -29,7 +26,6 @@ const CardProfile = () => {
         throw new Error('Failed to update favorites');
       }
 
-      // Update the frontend state with the new favorites array
       setUserData((prevData) => ({ ...prevData, favorites: updatedFavorites }));
     } catch (error) {
       console.error('Error deleting favorite coin:', error);
@@ -39,15 +35,6 @@ const CardProfile = () => {
   return (
     <div className='card bg-base-100 w-96 shadow-xl'>
       <figure className='px-10 pt-10'>
-        {/* <img src={userData.image} className="rounded-xl" alt="Profile" /> */}
-        {/* <img
-          src={
-            userData
-              ? userData.image
-              : 'https://i.pinimg.com/736x/bd/42/af/bd42af6c1deea1760a9ac6f98539dab1.jpg'
-          }
-          alt='Profile'
-        /> */}
         <img
           src={
             userData.image && userData.image.trim() !== ''
@@ -69,17 +56,13 @@ const CardProfile = () => {
           <p>Email: {userData.email}</p>
         </div>
 
-        <h2 className='card-title'>Favorite Coins</h2>
+        <h2 className='card-title'>Your collection</h2>
         {userData.favorites && userData.favorites.length > 0 ? (
           userData.favorites.map((coin) => (
-            <div key={coin.coinId} className='flex items-center gap-4 group'>
+            <div key={coin.coinId} className='flex items-center gap-4 justify-between w-full group'>
               <img src={coin.image} alt={coin.coinName} className='w-8 h-8' />
-              <div className='flex flex-col'>
-                <p className='cursor-pointer font-semibold'>{coin.coinName}</p>
-                <p className='text-sm text-gray-600'>
-                  Price: ${coin.currentPrice}
-                </p>
-              </div>
+              <p className='cursor-pointer font-semibold flex-1'>{coin.coinName}</p>
+              <p className='text-sm text-gray-600'>Price: ${coin.currentPrice}</p>
               <button
                 className='btn btn-xs btn-outline btn-error invisible group-hover:visible'
                 onClick={() => handleDelete(coin.coinId)}

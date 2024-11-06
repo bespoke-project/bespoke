@@ -63,7 +63,7 @@ const Navbar = () => {
               viewBox='0 0 24 24'
               strokeWidth={1.5}
               stroke='currentColor'
-              className='swap-on size-6'
+              className='swap-on size-6 text-[#67817d]'
             >
               <path
                 strokeLinecap='round'
@@ -78,7 +78,7 @@ const Navbar = () => {
               viewBox='0 0 24 24'
               strokeWidth={1.5}
               stroke='currentColor'
-              className='swap-off size-6'
+              className='swap-off size-6 text-[#67817d]'
             >
               <path
                 strokeLinecap='round'
