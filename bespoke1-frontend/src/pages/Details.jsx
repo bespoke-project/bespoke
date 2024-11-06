@@ -84,19 +84,16 @@ const Details = () => {
                 <h3 className='text-lg font-semibold'>Token Name:</h3>
                 <p>{coinData.name || 'N/A'}</p>
               </div>
-
               {/* CA/Token Address */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>CA/Token Address:</h3>
                 <p>{coinData.contract_address || 'N/A'}</p>
               </div>
-
               {/* Blockchain */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>Blockchain:</h3>
                 <p>{coinData.asset_platform_id || 'N/A'}</p>
               </div>
-
               {/* Image */}
               <div className='p-4 rounded-lg shadow-xl flex justify-center'>
                 <img
@@ -105,7 +102,6 @@ const Details = () => {
                   className='h-20 w-20 object-cover rounded'
                 />
               </div>
-
               {/* Token Description */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>Token Description:</h3>
@@ -117,7 +113,6 @@ const Details = () => {
                 <h3 className='text-lg font-semibold'>AI Feedback:</h3>
                 <AiInfo tokenAddress={coinData.contract_address} />
               </div>
-
               {/* Current Price */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>Current Price:</h3>
@@ -132,7 +127,6 @@ const Details = () => {
                     'N/A'}
                 </p>
               </div>
-
               {/* Price Trend Chart (24 Hours) */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>
@@ -172,7 +166,6 @@ const Details = () => {
                   }}
                 />
               </div>
-
               {/* Price Trend Chart (30 Days) */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>
@@ -217,7 +210,6 @@ const Details = () => {
                   }}
                 />
               </div>
-
               {/* Market Cap */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>Market Cap:</h3>
@@ -230,7 +222,6 @@ const Details = () => {
                   {formatNumber(coinData.market_data?.market_cap?.usd) || 'N/A'}
                 </p>
               </div>
-
               {/* Market Cap Trend Chart */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>
@@ -264,7 +255,6 @@ const Details = () => {
                   }}
                 />
               </div>
-
               {/* Liquidity */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>Liquidity:</h3>
@@ -279,13 +269,11 @@ const Details = () => {
                     'N/A'}
                 </p>
               </div>
-
               {/* Holder Count */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>Holder Count:</h3>
                 <p>{coinData.community_data?.facebook_likes || 'N/A'}</p>
               </div>
-
               {/* Social Media Information */}
               <div className='p-4 rounded-lg shadow-xl'>
                 <h3 className='text-lg font-semibold'>

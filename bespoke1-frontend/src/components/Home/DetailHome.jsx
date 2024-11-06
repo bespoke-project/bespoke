@@ -58,7 +58,7 @@ const DetailHome = ({ coin }) => {
           />
 
           {coinDetails ? (
-            <p className='text-center mb-4'>
+            <p className='mb-4'>
               {coinDetails.description?.en || 'No description available.'}
             </p>
           ) : (
