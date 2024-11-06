@@ -39,8 +39,10 @@ const DetailHome = ({ coin }) => {
 
   if (!coin) {
     return (
-      <div className='mt-10'>
-        <p className='text-center'>Select a coin to see its details.</p>
+      <div className="mt-10 flex justify-center items-center">
+        <p className="text-center text-2xl font-semibold text-gray-500 animate-pulse shadow-2lg rounded-lg px-4 py-2 ">
+          Please select a coin to reveal its mysteries! 💰✨
+        </p>
       </div>
     );
   }

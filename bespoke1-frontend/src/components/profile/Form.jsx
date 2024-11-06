@@ -200,7 +200,7 @@ const Form = () => {
             onClick={() => setShowPassword(!showPassword)}
             className='absolute right-2 top-9'
           >
-            {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            {showPassword ? <AiOutlineEyeInvisible size={23}/> : <AiOutlineEye size={23}/>}
           </button>
         </div>
         {/* Confirm Password Field */}
@@ -220,7 +220,7 @@ const Form = () => {
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             className='absolute right-2 top-9'
           >
-            {showConfirmPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            {showConfirmPassword ? <AiOutlineEyeInvisible  size={23}/> : <AiOutlineEye size={23} />}
           </button>
         </div>
         {/* File Upload Field */}
