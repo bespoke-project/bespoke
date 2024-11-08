@@ -41,13 +41,23 @@ export const signIn = asyncHandler(async (req, res, next) => {
     expiresIn: '30m',
   });
 
-  res.cookie('token', token, { maxAge: 1800000 });
+  res.cookie("token", token, {
+    maxAge: 1800000,
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  }); // 30mn
   res.send({ status: 'logged in' });
 });
 
 // LOGOUT
 export const signOut = asyncHandler(async (req, res, next) => {
-  res.clearCookie('token');
+  res.cookie("token",  {
+    maxAge: 1800000,
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  }); // 30mn
   res.send({ status: 'logged out' });
 });
 

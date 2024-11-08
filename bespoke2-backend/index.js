@@ -34,7 +34,7 @@ app.use(errorHandler);
 app.use(cookieParser());
 // app.use(cors()); // Ermöglicht dem Frontend, HTTP-Anfragen von einer anderen Domain an den Server zu senden (Cross-Origin Resource Sharing)
 // // TODO: ASK #security: Welche URI ergänzen wir hier bei bespoke konkret?
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: allowedOrigin, credentials: true }));
 // Routes
 app.use('/auth', authRouter);
 app.use('/posts', postsRouter);
