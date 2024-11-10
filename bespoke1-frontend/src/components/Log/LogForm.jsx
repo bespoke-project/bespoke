@@ -55,7 +55,6 @@ const LogForm = () => {
           });
         }
       } catch (error) {
-        console.log(error);
         if (error.response && error.response.data) {
           Swal.fire({
             icon: "error",
