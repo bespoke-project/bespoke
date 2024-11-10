@@ -33,7 +33,7 @@ const TokenHome = ({ onSelectCoin }) => {
   return (
     <div className='mt-10'>
       <div className='card w-full md:w-96 shadow-2xl mx-auto'>
-        <h1 className='text-center pt-10 font-extrabold text-xl'>Your Coin</h1>
+        <h1 className='text-center pt-10 font-extrabold text-xl'>Your collection</h1>
 
         {userData.favorites?.map((favorite, index) => (
           <div key={index} className='p-4 md:p-10'>
@@ -47,7 +47,7 @@ const TokenHome = ({ onSelectCoin }) => {
         ))}
 
         <div className='mt-10'>
-          <h2 className='text-center font-bold text-lg'>Your Suggestion</h2>
+          <h2 className='text-center font-bold text-lg'>Trending Now</h2>
           {coins.map((coin) => (
             <div
               key={coin.id}
