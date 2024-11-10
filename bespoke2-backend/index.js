@@ -25,6 +25,7 @@ import axios from 'axios';
 
 const app = express();
 const PORT = 8202;
+const allowedOrigin = [process.env.FRONTEND_URL, process.env.DEPLOYMENT_URL];
 
 // Middleware
 // JSON-Body-Parser, Cors, Error-Handler,

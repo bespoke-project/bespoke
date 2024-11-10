@@ -5,7 +5,6 @@ import { useAuth } from "../../context/AuthProvider";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 const LogForm = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -56,6 +55,7 @@ const LogForm = () => {
           });
         }
       } catch (error) {
+        console.log(error);
         if (error.response && error.response.data) {
           Swal.fire({
             icon: "error",
@@ -80,7 +80,7 @@ const LogForm = () => {
         <div className="flex justify-center pb-6">
           <img src={logo} alt="Bespoke Logo" className="h-20 w-auto" />
         </div> */}
-                <div className="flex-none">
+        <div className="flex-none">
           <img
             src="/Bespoke!Logo.webp" // Logo aus dem public Ordner
             alt="Logo"
