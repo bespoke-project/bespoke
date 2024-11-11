@@ -7,7 +7,7 @@ const TokenHome = ({ onSelectCoin }) => {
   const { userData } = useAuth();
 
   useEffect(() => {
-    console.log('Favorites in TokenHome:', userData.favorites); // Verify favorites here
+    console.log('Favorites in TokenHome:', userData?.favorites);
 
     axios
       .get('https://api.coingecko.com/api/v3/coins/markets', {
@@ -28,23 +28,29 @@ const TokenHome = ({ onSelectCoin }) => {
       .catch((error) => {
         console.error('Error fetching coin data:', error);
       });
-  }, [userData.favorites]); // Reload favorites when they update
+  }, [userData?.favorites]);
 
   return (
     <div className='mt-10'>
       <div className='card w-full md:w-96 shadow-2xl mx-auto'>
-        <h1 className='text-center pt-10 font-extrabold text-xl'>Your collection</h1>
+        <h1 className='text-center pt-10 font-extrabold text-xl'>
+          Your collection
+        </h1>
 
-        {userData.favorites?.map((favorite, index) => (
-          <div key={index} className='p-4 md:p-10'>
-            <button
-              className='btn btn-outline w-full md:w-72'
-              onClick={() => onSelectCoin(favorite)}
-            >
-              {favorite.coinName || 'Unknown'}
-            </button>
-          </div>
-        ))}
+        {userData?.favorites?.length > 0 ? (
+          userData.favorites.map((favorite, index) => (
+            <div key={index} className='p-4 md:p-10'>
+              <button
+                className='btn btn-outline w-full md:w-72'
+                onClick={() => onSelectCoin(favorite)}
+              >
+                {favorite.coinName || 'Unknown'}
+              </button>
+            </div>
+          ))
+        ) : (
+          <p className='text-center text-gray-500'>No favorites available.</p>
+        )}
 
         <div className='mt-10'>
           <h2 className='text-center font-bold text-lg'>Trending Now</h2>
