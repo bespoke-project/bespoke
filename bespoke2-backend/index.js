@@ -1,12 +1,18 @@
+import dotenv from 'dotenv';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { errorHandler } from './middlewares/errorHandler.js';
 import authRouter from './routes/authRouter.js';
 import postsRouter from './routes/postsRouter.js';
-import cookieParser from 'cookie-parser';
-// import "./db/connection.js";
+import { errorHandler } from './middlewares/errorHandler.js';
 import './db/server.js';
-// // wichtig (bei Express): bei Scripteinbidnung immer Dateiendung .js angeben
+// wichtig (bei Express): bei Scripteinbidnung immer Dateiendung .js angeben
+
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: '.env.prod' });
+} else {
+  dotenv.config({ path: '.env.local' });
+}
 
 // Modularizing the code ...
 // import tokensRouter from "./routes/tokensRouter.js"
@@ -25,8 +31,7 @@ import axios from 'axios';
 
 const app = express();
 const PORT = 8202;
-const allowedOrigin = [process.env.FRONTEND_URL, process.env.DEPLOYMENT_URL];
-
+// const allowedOrigin = [process.env.FRONTEND_URL, process.env.DEPLOYMENT_URL];
 // Middleware
 // JSON-Body-Parser, Cors, Error-Handler,
 
@@ -34,8 +39,13 @@ app.use(express.json()); // Body-Parser for POST-REQUESTS w/ JSON-Payloads, ein 
 app.use(errorHandler);
 app.use(cookieParser());
 // app.use(cors()); // Ermöglicht dem Frontend, HTTP-Anfragen von einer anderen Domain an den Server zu senden (Cross-Origin Resource Sharing)
-// // TODO: ASK #security: Welche URI ergänzen wir hier bei bespoke konkret?
-app.use(cors({ origin: allowedOrigin, credentials: true }));
+// TODO: ASK #security: Welche URI ergänzen wir hier bei bespoke konkret?
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL, // Ensure this matches your production URL
+    credentials: true, // Allow credentials to be sent
+  })
+);
 // Routes
 app.use('/auth', authRouter);
 app.use('/posts', postsRouter);

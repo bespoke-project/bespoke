@@ -41,23 +41,21 @@ export const signIn = asyncHandler(async (req, res, next) => {
     expiresIn: '30m',
   });
 
-  res.cookie("token", token, {
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  res.cookie('token', token, {
     maxAge: 1800000,
     httpOnly: true,
-    secure: true,
-    sameSite: "None",
-  }); // 30mn
+    secure: isProduction,
+    sameSite: isProduction ? 'None' : 'Lax',
+  });
+
   res.send({ status: 'logged in' });
 });
 
 // LOGOUT
 export const signOut = asyncHandler(async (req, res, next) => {
-  res.cookie("token",  {
-    maxAge: 1800000,
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-  }); // 30mn
+  res.clearCookie('token');
   res.send({ status: 'logged out' });
 });
 

@@ -4,12 +4,11 @@ import axios from 'axios';
 import { ClipLoader } from 'react-spinners';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import Swal from 'sweetalert2';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Form = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { userData, setUserData } = useAuth();
+  const { userData, setUserData, checkUser } = useAuth();
   const [form, setForm] = useState({
     name: userData.firstName || '',
     lastName: userData.lastName || '',
@@ -76,7 +75,7 @@ const Form = () => {
         }
       );
 
-      setUserData(response.data.user);
+      await checkUser();
       resetFormData();
       setAlertVisible(true);
 
@@ -89,7 +88,7 @@ const Form = () => {
       setLoading(false);
     }
   };
-  // here the handleDelete function is added
+
   const handleDelete = async () => {
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -130,12 +129,11 @@ const Form = () => {
   return (
     <div className='max-w-2xl w-full mx-auto py-6 px-4 sm:px-6 lg:px-8'>
       {alertVisible && (
-        <div className='alert alert-success mb-4'>
-          User data updated successfully!
+        <div className='alert alert-success mb-4 text-center text-green-700 bg-green-100 border border-green-300 rounded-lg py-2 px-4'>
+          Profile updated successfully!
         </div>
       )}
       <form onSubmit={handleSubmit} className='space-y-4'>
-        {/* First Name Field */}
         <div className='flex flex-col'>
           <label className='text-lg'>First Name</label>
           <input
@@ -147,7 +145,6 @@ const Form = () => {
             placeholder='Enter your first name'
           />
         </div>
-        {/* Last Name Field */}
         <div className='flex flex-col'>
           <label className='text-lg'>Last Name</label>
           <input
@@ -159,7 +156,6 @@ const Form = () => {
             placeholder='Enter your last name'
           />
         </div>
-        {/* Username Field */}
         <div className='flex flex-col'>
           <label className='text-lg'>Username</label>
           <input
@@ -171,7 +167,6 @@ const Form = () => {
             placeholder='Enter your username'
           />
         </div>
-        {/* Email Field */}
         <div className='flex flex-col'>
           <label className='text-lg'>Email</label>
           <input
@@ -183,7 +178,6 @@ const Form = () => {
             placeholder='Enter your email'
           />
         </div>
-        {/* Password Field */}
         <div className='flex flex-col relative'>
           <label className='text-lg'>Password</label>
           <input
@@ -200,10 +194,13 @@ const Form = () => {
             onClick={() => setShowPassword(!showPassword)}
             className='absolute right-2 top-9'
           >
-            {showPassword ? <AiOutlineEyeInvisible size={23}/> : <AiOutlineEye size={23}/>}
+            {showPassword ? (
+              <AiOutlineEyeInvisible size={23} />
+            ) : (
+              <AiOutlineEye size={23} />
+            )}
           </button>
         </div>
-        {/* Confirm Password Field */}
         <div className='flex flex-col relative'>
           <label className='text-lg'>Confirm Password</label>
           <input
@@ -220,10 +217,13 @@ const Form = () => {
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             className='absolute right-2 top-9'
           >
-            {showConfirmPassword ? <AiOutlineEyeInvisible  size={23}/> : <AiOutlineEye size={23} />}
+            {showConfirmPassword ? (
+              <AiOutlineEyeInvisible size={23} />
+            ) : (
+              <AiOutlineEye size={23} />
+            )}
           </button>
         </div>
-        {/* File Upload Field */}
         <div className='flex flex-col'>
           <label className='text-lg'>Photo</label>
           <input
@@ -233,7 +233,6 @@ const Form = () => {
             accept='image/*'
             onChange={handleFileChange}
           />
-          {/* Preview the selected image */}
           {file && (
             <img
               src={URL.createObjectURL(file)}
@@ -242,8 +241,6 @@ const Form = () => {
             />
           )}
         </div>
-        {/* Submit Button */}
-
         <div className='flex justify-center items-center'>
           <button
             type='submit'
@@ -259,11 +256,10 @@ const Form = () => {
           Updating profile, please wait...
         </p>
       )}
-      {/* Delete Button */}
       <div className='flex justify-center items-center mt-6'>
         <button
           onClick={handleDelete}
-          className='btn btn-danger bg-red-500  text-white p-4 rounded-md w-full sm:w-auto'
+          className='btn btn-danger bg-red-500 text-white p-4 rounded-md w-full sm:w-auto'
         >
           Delete Account
         </button>

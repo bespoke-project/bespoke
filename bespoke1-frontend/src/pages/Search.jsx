@@ -11,14 +11,14 @@ const Search = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { setTokenId } = useContext(TokenContext);
-  const { userData, setUserData } = useAuth();
+  const { userData, setUserData, checkUser } = useAuth();
   const [showNotification, setShowNotification] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   const fetchSuggestions = useCallback(
     debounce(async (input) => {
       try {
-        setLoading(true); // Start loading
+        setLoading(true);
         const response = await fetch(
           `https://api.coingecko.com/api/v3/search?query=${input}`
         );
@@ -26,7 +26,6 @@ const Search = () => {
         setSuggestions(data.coins.slice(0, 5));
         setError(null);
       } catch (error) {
-        console.error('Error fetching suggestions:', error);
         setError('Failed to fetch suggestions. Please try again.');
       } finally {
         setLoading(false);
@@ -58,8 +57,6 @@ const Search = () => {
         `https://api.coingecko.com/api/v3/coins/${suggestion.id}`
       );
       const coinData = await response.json();
-
-      // Set selected coin details
       setSelectedCoin({
         coinId: coinData.id,
         coinName: coinData.name,
@@ -70,14 +67,11 @@ const Search = () => {
         currentPriceUSD: coinData.market_data?.current_price?.usd || 'N/A',
         marketCapEUR: coinData.market_data?.market_cap?.eur || 'N/A',
         marketCapUSD: coinData.market_data?.market_cap?.usd || 'N/A',
-        liquidityEUR: coinData.liquidity?.eur || 'Please',
-        liquidityUSD: coinData.liquidity?.usd || 'Please',
         holderCount: coinData.holderCount || 'N/A',
         link: coinData.links?.homepage[0] || 'N/A',
         socialMedia: coinData.community_data?.twitter_followers || 'N/A',
       });
     } catch (error) {
-      // console.error('Error fetching coin data:', error);
       setError('Network Error, Please try again.');
     } finally {
       setLoading(false);
@@ -86,7 +80,6 @@ const Search = () => {
 
   const handleAddToFavorites = async () => {
     if (!selectedCoin || !selectedCoin.coinId || !selectedCoin.coinName) {
-      console.error('Selected coin data is incomplete:', selectedCoin);
       return;
     }
 
@@ -102,7 +95,6 @@ const Search = () => {
     );
 
     if (isAlreadyFavorite) {
-      console.log('Coin is already in favorites:', newFavorite);
       return;
     }
 
@@ -123,7 +115,7 @@ const Search = () => {
         throw new Error('Failed to update favorites');
       }
 
-      setUserData((prevData) => ({ ...prevData, favorites: updatedFavorites }));
+      await checkUser();
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 3000);
     } catch (error) {
@@ -235,7 +227,6 @@ const Search = () => {
                 </div>
               </div>
 
-              {/* Add to Favorites Button */}
               <div className='col-span-2 text-center mt-6'>
                 <button
                   className='btn btn-success w-full md:w-auto'

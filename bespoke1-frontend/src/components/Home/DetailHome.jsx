@@ -12,7 +12,7 @@ const DetailHome = ({ coin }) => {
           const formattedCoinName = coin.coinName
             .toLowerCase()
             .replace(/\s+/g, '-');
-          console.log('Fetching details for:', formattedCoinName);
+          // console.log('Fetching details for:', formattedCoinName);
 
           const response = await fetch(
             `https://api.coingecko.com/api/v3/coins/${formattedCoinName}`
@@ -39,8 +39,8 @@ const DetailHome = ({ coin }) => {
 
   if (!coin) {
     return (
-      <div className="mt-10 flex justify-center items-center">
-        <p className="text-center text-2xl font-semibold text-gray-500 animate-pulse shadow-2lg rounded-lg px-4 py-2 ">
+      <div className='mt-10 flex justify-center items-center'>
+        <p className='text-center text-2xl font-semibold text-gray-500 animate-pulse shadow-2lg rounded-lg px-4 py-2 '>
           Please select a coin to reveal its mysteries! 💰✨
         </p>
       </div>
