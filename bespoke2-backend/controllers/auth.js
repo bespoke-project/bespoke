@@ -41,7 +41,15 @@ export const signIn = asyncHandler(async (req, res, next) => {
     expiresIn: '30m',
   });
 
-  res.cookie('token', token, { maxAge: 1800000 });
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  res.cookie('token', token, {
+    maxAge: 1800000,
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'None' : 'Lax',
+  });
+
   res.send({ status: 'logged in' });
 });
 

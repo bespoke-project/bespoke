@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem('userData')) || null
+  );
 
   const checkUser = async () => {
     try {
@@ -18,36 +18,41 @@ export const AuthProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-
-      if (response.data && response.data.id) {
-        setIsLoggedIn(true);
+      if (response.data) {
         setUserData(response.data);
-        console.log('User data with favorites:', response.data);
+        localStorage.setItem('userData', JSON.stringify(response.data));
       } else {
-        setIsLoggedIn(false);
-        setUserData({});
+        setUserData(null);
+        localStorage.removeItem('userData');
       }
     } catch (error) {
-      console.error('Error retrieving user data:', error);
-      setIsLoggedIn(false);
-      setUserData({});
+      console.error('Error checking user:', error);
+      setUserData(null);
+      localStorage.removeItem('userData');
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`, null, {
+        withCredentials: true,
+      });
+      setUserData(null);
+      localStorage.removeItem('userData');
+    } catch (error) {
+      console.error('Error logging out:', error);
     }
   };
 
   useEffect(() => {
-    const token = Cookies.get('token');
-    if (token) {
+    if (userData) {
       checkUser();
     }
   }, []);
 
-  const values = {
-    isLoggedIn,
-    userData,
-    setIsLoggedIn,
-    setUserData,
-    checkUser,
-  };
-
-  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ userData, checkUser, handleLogout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
